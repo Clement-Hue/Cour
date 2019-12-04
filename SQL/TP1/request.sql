@@ -47,24 +47,6 @@ select city.name from city
 group by city.name
 having count(city.name) >= 2;
 
-"""
-NAME
-Georgetown
-Abidjan
-London
-Colombo
-Moskva
-Genève
-Bruxelles
-Jeddah
-New York
-Washington
-Den Haag
-Wien
-Paris
-Jakarta
-Roma 
-"""
 
 /* 6 I Quelles sont les langues parlées et les régimes politiques présents dans chaque continents ? */
 
@@ -78,7 +60,7 @@ select name from organization
 where established between to_date('1900','YYYY') and to_date('1950','YYYY');
 
 
-/* 8 I Quels sont les pays traverses par le Danube, */
+/* 8 Quels sont les pays traverses par le Danube, */
 
 
 /*9 liste des fleuves de France*/ 
@@ -116,7 +98,104 @@ where population_growth >0 or GDP > 1000
 
 /*13 liste des organisations regroupant plus de 100 pays, avec la population totale de ceux-ci*/
 
-select  Organization from ISMEMBER
+select  Organization, Sum(Population) from ISMEMBER
 join COUNTRY on COUNTRY.Code = ISMEMBER.Country
 group by  Organization
 having count(Country) > 100
+
+/*14 I Liste des pays européens avec leur plus haute montagne.*/
+
+/* 15 I Liste des pays dans lesquels toutes les religions sont pratiquées */
+
+/*16 I Liste des affluents directs du Nil ainsi que les affluents de ses affluents */
+
+/* 17 I Liste des pays frontaliers de la France, triés par population décroissante */
+
+select Country2 from Borders
+join POPULATION on POPULATION.Country = Borders.Country2
+where Country1 = 'F'
+order by population_growth DESC 
+
+
+/* 18 I Longueur de la frontière française */
+
+select sum(length) from Borders
+where country1 = 'F'
+
+/* 19 I Nombre de voisins de chaque pays d’Europe */
+
+select  country1, count(country2) from Borders
+group by country1
+
+/* 20 I Liste des pays qui partagent une même montagne. */
+
+select mountain from geo_mountain
+group by mountain
+having count(mountain) >=2
+
+/* 21 I Liste des pays ayant une croissance démographique supérieure à 0 mais un PIB inférieur à 1000.*/
+
+select COUNTRY.name, GDP, population_growth from COUNTRY
+join POPULATION on POPULATION.country = COUNTRY.code
+join ECONOMY on ECONOMY.country = COUNTRY.code
+where population_growth >0 and GDP > 1000
+
+/* 22 I Quels sont les pays frontaliers avec la France, */
+
+select Country2 from Borders
+join POPULATION on POPULATION.Country = Borders.Country2
+where Country1 = 'F'
+
+/* 23 I Liste des noms de villes partagés par au moins deux pays */
+
+select Name from City
+group by Name
+having count(name) >=2
+
+/* 24 I Liste des pays qui ne sont bordés par aucune mer,*/
+
+select code from country
+where code not in (select Country from Geo_Lake)
+
+/* 25 I Quelles sont les langues parlées et les régimes politiques présents dans chaque continents ?*/
+select Continent, language.name, POLITICS.Government from Encompasses
+join LANGUAGE on LANGUAGE.Country = Encompasses.Country
+join POLITICS on POLITICS.Country = Encompasses.Country
+
+/*26 I Liste des fleuves de France (c’est-à-dire les rivières de France qui se jettent dans la mer) */
+
+/* 27 I Quels sont les pays qui ont acquis leur indépendance au XIXeme siècle */
+
+select Country from politics
+where independence between  to_date('1800','YYYY') and to_date('1900','YYYY');
+
+/* 28 I Liste des organisations dont tous les pays membres sont européens*/
+
+select Name from Organization
+join Encompasses on Encompasses.country = Organization.country
+where continent = 'Europe'
+
+/*29 I Liste des pays à cheval sur plusieurs continents ; */
+
+/*30 I Liste des pays du continent européen qui comptent moins de 10 habitants par km */
+
+/*31 I Dans quels pays partiellement francophone la langue française est-elle la plus parlée ? (les 3 premiers) * /
+
+/*32 I Liste des pays du continent européen qui comptent moins de 10 habitants par km */
+
+/*33 I Quelles sont les trois religions les plus pratiquées sur chaque continent ? */
+
+/* 34 I Quels sont les trois pays les plus pauvres*/
+
+select COUNTRY.name  from COUNTRY
+join ECONOMY on ECONOMY.country = COUNTRY.code
+order by GDP ASC
+FETCH NEXT 3 ROWS ONLY
+
+
+/* 35 I liste de tous les pays ayant une croissance démographique supérieure à 0 mais un PIB inférieur */
+
+select COUNTRY.name, GDP, population_growth from COUNTRY
+join POPULATION on POPULATION.country = COUNTRY.code
+join ECONOMY on ECONOMY.country = COUNTRY.code
+where population_growth >0 and GDP > population_growth

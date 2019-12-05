@@ -164,6 +164,10 @@ join POLITICS on POLITICS.Country = Encompasses.Country
 
 /*26 I Liste des fleuves de France (c’est-à-dire les rivières de France qui se jettent dans la mer) */
 
+select distinct river.name from river
+join geo_river on geo_river.river = river.name
+where country = 'F' and sea is not null
+
 /* 27 I Quels sont les pays qui ont acquis leur indépendance au XIXeme siècle */
 
 select Country from politics
@@ -177,11 +181,30 @@ where continent = 'Europe'
 
 /*29 I Liste des pays à cheval sur plusieurs continents ; */
 
+select country from encompasses
+group by country
+having count(country) >= 2
+
 /*30 I Liste des pays du continent européen qui comptent moins de 10 habitants par km */
 
-/*31 I Dans quels pays partiellement francophone la langue française est-elle la plus parlée ? (les 3 premiers) * /
+select country.name from country
+join encompasses on encompasses.country = country.code
+where population / area < 10 and continent = 'Europe'
+
+/*31 I Dans quels pays partiellement francophone la langue française est-elle la plus parlée ? (les 3 premiers) */
+
+select country.name from language
+join country on country.code = language.country
+where language.name = 'French' and language.percentage < 90
+order by language.percentage DESC
+FETCH NEXT 3 ROWS ONLY
+
 
 /*32 I Liste des pays du continent européen qui comptent moins de 10 habitants par km */
+
+select country.name from country
+join encompasses on encompasses.country = country.code
+where population / area < 10 and continent = 'Europe'
 
 /*33 I Quelles sont les trois religions les plus pratiquées sur chaque continent ? */
 

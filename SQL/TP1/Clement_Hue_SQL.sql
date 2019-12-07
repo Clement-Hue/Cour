@@ -111,6 +111,10 @@ having count(Country) > 100;
 
 /*16 I Liste des affluents directs du Nil ainsi que les affluents de ses affluents */
 
+select r2.name, r1.name as affluant FROM river r1
+join river r2 on r2.river = r1.name
+where r1.river = 'Nile' or r2.river = 'Nile'
+
 /* 17 I Liste des pays frontaliers de la France, triés par population décroissante */
 
 select Country2 from Borders

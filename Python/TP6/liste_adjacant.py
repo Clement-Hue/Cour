@@ -65,8 +65,6 @@ def transform_liste_into_matrice_inc(graphe):
 	for i in range(graphe.nb_arete()):
 		matrice.append([0] * graphe.nb_sommet)
 	i=0
-
-
 	return matrice
 
 

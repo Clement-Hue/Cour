@@ -59,14 +59,13 @@ class Arbre_binaire:
 				self._insertion(valeur,node.gauche)
 	
 	def insert_iterative(self,valeur):
-	 #   if self.root == None:
-	 #       self.root = Node(valeur,None,None)
-	  #  self.root.insert_iterative(valeur)
+#	    if self.root == None:
+#	        self.root = Node(valeur,None,None)
+#			return	 
 		if self.root == None:
 			self.root = Node(valeur,None,None)
-		self._insert_iterative(valeur,self.root)
-
-	def _insert_iterative(self,valeur,node):
+			return
+		node = self.root
 		while node != None:
 			if valeur > node.valeur:
 				if node.droite == None:
@@ -78,6 +77,7 @@ class Arbre_binaire:
 					node.gauche  = Node(valeur,None,None)
 					return
 				node= node.gauche
+
 
 		
 	def recherche(self,valeur):
@@ -100,9 +100,7 @@ class Arbre_binaire:
 	def recherche_iteratif(self,valeur):
 		if self.root == None:
 			return False
-		return self._recherche_iteratif(valeur,self.root)
-
-	def _recherche_iteratif(self,valeur,node):
+		node = self.root
 		while node != None:
 			if valeur == node.valeur:
 				return True
@@ -111,6 +109,7 @@ class Arbre_binaire:
 			else:
 				node = node.gauche
 		return False
+
 				
 
 	def parcour(self):
@@ -131,7 +130,7 @@ class Arbre_binaire:
 		return liste
 
 	def _liste_trie(self,node,liste):
-		if node == None:
+		if node is None:
 			return
 		self._liste_trie(node.gauche,liste)
 		liste.append(node.valeur)
@@ -139,7 +138,6 @@ class Arbre_binaire:
 		
 
 def tri(liste):
-	new_liste = []
 	arbre = Arbre_binaire()
 	for i in range(len(liste)):
 		arbre.insertion(liste[i])
@@ -148,9 +146,9 @@ def tri(liste):
 
 
 a =  Arbre_binaire()
-a.insertion(10)
-a.insertion(5)
-a.insertion(20)
+a.insert_iterative(10)
+a.insert_iterative(5)
+a.insert_iterative(20)
 print('10 dans la liste ?\n',a.recherche_iteratif(10))
 print('parcour:')
 a.parcour()

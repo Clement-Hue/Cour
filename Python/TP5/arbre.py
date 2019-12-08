@@ -1,16 +1,16 @@
 class Noeud:
-    def __init__(self,valeur,n1,n2):
+    def __init__(self,valeur,node_gauche,node_droite):
         self.valeur = valeur
-        self.gauche = n1
-        self.droite = n2
+        self.gauche = node_gauche 
+        self.droite = node_droite 
 
 
 class Arbre:
     def __init__(self):
         self.root = None
 
-    def node(f,x,n1,n2):
-        noeud = Noeud(x,n1,n2)
+    def node(self,valeur,node_gauche,node_droite):
+        noeud = Noeud(valeur,node_gauche,node_droite)
         return noeud
 
     def depth(self):
@@ -51,16 +51,16 @@ class Arbre:
         self._inc(node.gauche)
         self._inc(node.droite)
 
-    def tree(self,n):
-        self.root = n
+    def tree(self,root):
+        self.root = root 
 
     def empty(self):
-        if self.racine != None:
+        if self.root != None:
             return False
         return True
 
-    def root(self):
-        return self.racine
+    def Root(self):
+        return self.root
 
     def parcour(self):
         self._parcour(self.root)

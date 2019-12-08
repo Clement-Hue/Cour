@@ -8,7 +8,7 @@ select count(table_name) from user_tables;
 
 """
 COUNT(TABLE_NAME)
-47 
+47
 """
 
 /* 3 I Liste des continents et de leur superficie, triés par superficie décroissante ;*/
@@ -22,14 +22,14 @@ Asia 	44579000
 America 	42075000
 Africa 	30221000
 Europe 	9938000
-Australia/Oceania 	8600000 
+Australia/Oceania 	8600000
 """
 
 /* 4 I Nom et ville de fondation des cinq organisations mondiale contenant le plus de membress ;*/
-select ISMEMBER.Organization, city ,count(*) as nb_membre from ISMEMBER 
+select ISMEMBER.Organization, city ,count(*) as nb_membre from ISMEMBER
 join ORGANIZATION on ORGANIZATION.abbreviation = ISMEMBER.organization
 group by ISMEMBER.Organization, city
-order by nb_membre DESC 
+order by nb_membre DESC
 FETCH NEXT 5 ROWS ONLY;
 
  """
@@ -38,7 +38,7 @@ UPU 	Bern 	227
 IOC 	Lausanne 	202
 UNESCO 	Paris 	202
 Interpol 	Lyon 	201
-FAO 	Roma 	194 
+FAO 	Roma 	194
 """
 
 /* 5 I Liste des villes dans lesquelles au moins deux organisations mondiales ont été fondées ; */
@@ -65,7 +65,7 @@ where established between to_date('1900','YYYY') and to_date('1950','YYYY');
 select * from geo_river
 where river = 'Donau';
 
-/*9 liste des fleuves de France*/ 
+/*9 liste des fleuves de France*/
 
 select distinct river.name from river
 join geo_sea on geo_sea.sea = river.sea
@@ -88,7 +88,7 @@ Europe 	9938000
 Australia/Oceania 	8600000
 Asia 	44579000
 America 	42075000
-Africa 	30221000 
+Africa 	30221000
 """
 
 /*12 Liste des pays ayant une croissance démographique supérieur à 0 ou un PIB supérieur à 1000*/
@@ -109,11 +109,15 @@ having count(Country) > 100;
 
 /* 15 I Liste des pays dans lesquels toutes les religions sont pratiquées */
 
+select country from religion
+group by country
+having count(*) = (select count(distinct name) from religion);
+
 /*16 I Liste des affluents directs du Nil ainsi que les affluents de ses affluents */
 
 select r2.name, r1.name as affluant FROM river r1
 join river r2 on r2.river = r1.name
-where r1.river = 'Nile' or r2.river = 'Nile'
+where r1.river = 'Nile' or r2.river = 'Nile';
 
 /* 17 I Liste des pays frontaliers de la France, triés par population décroissante */
 
@@ -131,6 +135,8 @@ where country1 = 'F';
 /* 19 I Nombre de voisins de chaque pays d’Europe */
 
 select  country1, count(country2) from Borders
+join encompasses on encompasses.country = Borders.country1
+where continent = 'Europe'
 group by country1;
 
 /* 20 I Liste des pays qui partagent une même montagne. */

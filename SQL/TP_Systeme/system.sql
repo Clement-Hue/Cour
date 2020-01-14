@@ -46,3 +46,18 @@ exit when
 end loop;
 end;
 /
+
+
+
+
+/* chap 3*/
+/*1*/
+create user michel identified by 1234;
+/* 2 */
+select * from USER_TAB_PRIVS_RECD
+/* 3 */
+create role Potion;
+grant select on PotinsDePoliticiens  to Potion with grand option;
+
+select * from ROLE_SYS_PRIVS;
+

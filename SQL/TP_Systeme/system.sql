@@ -34,18 +34,72 @@ end;
 alter table hommePolitique 
 add column nbMandatsexercés  ;
 
-/*2 à finir*/
 
-create or replace procedure nb_mandat
-compteur number := 0;
-begin 
-loop 
- select count(*) from mandat where 
+/* 2 */
+CREATE OR REPLACE PROCEDURE RENSNBMANDAT IS
+BEGIN
 
-exit when
-end loop;
-end;
-/
+    UPDATE HOMMEPOLEUROPE SET nbmandat=(select count(*) from Mandat where Mandat.NOHP = HOMMEPOLEUROPE.id)
+
+END RENSNBMANDAT;
+
+/*3*/
+SELECT * FROM DBA_PROCEDURES WHERE OBJECT_NAME='RENSNBMANDAT' ;
+
+/*4*/
+CREATE OR REPLACE TRIGGER MAJNBMANDATS
+AFTER INSERT ON MANDAT
+FOR EACH ROW
+DECLARE newnb INT;
+BEGIN
+    SELECT count(*)INTO newnb FROM MANDAT WHERE NOHP=:new.nohp;
+
+    UPDATE HOMMEPOLITIQUE SET NBMANDATS = newnb WHERE ID=:new.nohp;
+END;
+
+/*5*/
+SELECT * FROM DBA_TRIGGERS WHERE TRIGGER_NAME='MAJNBMANDATS';
+
+/*IV Les vues */
+
+/*1*/
+CREATE VIEW HOMPOLEUROPE AS
+    SELECT * FROM HOMMEPOLITIQUE
+    INNER JOIN MANDAT ON HOMMEPOLITIQUE.ID = MANDAT.NOHP
+    INNER JOIN ENCOMPASSES ON MANDAT.PAYS=ENCOMPASSES.COUNTRY
+    WHERE ENCOMPASSES.CONTINENT="Europe" AND MANDAT.FIN> (SELECT SYSTIMESTAMP FROM dual);
+
+/*2*/
+SELECT * FROM DBA_VIEWS WHERE VIEW_NAME = 'HOMMEPOLEUROPE';
+
+/*3*/
+CREATE OR REPLACE TRIGGER del_vue
+    INSTEAD OF DELETE ON HOMPOLEUROPE FOR EACH ROW
+BEGIN
+    DELETE FROM MANDAT WHERE MANDAT.NOHP=:old.id;
+
+/*4*/
+CREATE TABLE opecountry (id INT PRIMARY KEY, typeop VARCHAR(25),userop VARCHAR(25),dateop DATE);
+
+CREATE OR REPLACE TRIGGER log_country AFTER INSERT OR UPDATE OR DELETE ON COUNTRY
+    DECLARE typeop opecountry.typeop%type;
+    userop opecountry.userop%type;
+    idop opecountry.id%type;
+    dateop opecountry.dateop%type;
+BEGIN
+    SELECT USERNAME INTO userop FROM USER_USERS;
+    SELECT SYSTIMESTAMP INTO dateop FROM dual;
+    CASE
+        WHEN INSERTING THEN
+            typeop:="INSERT";
+        WHEN UPDATING THEN
+            typeop:="UPDATE";
+        WHEN DELETING THEN
+            typeop:="DELETE";
+    SELECT MAX(id)into idop FROM opecountry;
+    idop:=idop+1;
+    INSERT INTO opecountry VALUES(idop,typeop,userop,dateop);
+    END
 
 
 

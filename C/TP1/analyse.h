@@ -5,6 +5,7 @@
 #define TAILLE_CHAINE 20
 
 void afficher_matrice(char [NB_BALISE][TAILLE_CHAINE] );
+void init_matrice(char [NB_BALISE][TAILLE_CHAINE] );
 
 enum Etat {
     BALISE,

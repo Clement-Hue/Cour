@@ -9,6 +9,7 @@ int main(int argc, char *argv[]){
     char balise_pile[NB_BALISE][TAILLE_CHAINE];
     int i = 0, j = 0;
     enum Etat etat; 
+    init_matrice(balise_pile);
     if ( (pFile = fopen(fichier,"r")) == NULL ){
         printf("erreur d'ouverture de fichier\n");
         return -1;
@@ -37,5 +38,13 @@ int main(int argc, char *argv[]){
 void afficher_matrice(char  matrice [NB_BALISE][TAILLE_CHAINE]){
     for (int i = 0 ;i<NB_BALISE;i++){
         printf("%s\n",matrice[i]);
+    }
+}
+
+void init_matrice(char  matrice [NB_BALISE][TAILLE_CHAINE]){
+    for (int i = 0 ; i < NB_BALISE; i++){
+        for (int j = 0; j < TAILLE_CHAINE; j++){
+            matrice[i][j] = 0;
+        }
     }
 }

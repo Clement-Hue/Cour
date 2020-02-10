@@ -1,42 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "analyse.h"
 
-#define  NB_BALISE 100 
-#define  TAILLE_CHAINE 20
-
-void afficher_matrice(char matrice[NB_BALISE][TAILLE_CHAINE] );
-
-enum Etat {
-    BALISE,
-    HORS_BALISE,
-};
-
-int main(){
+int main(int argc, char *argv[]){
     FILE* pFile;
+    char * fichier  = (argc == 1) ? "fichier.html" : argv[1];
     char c;
     char balise_pile[NB_BALISE][TAILLE_CHAINE];
     int i = 0, j = 0;
     enum Etat etat; 
-    if ( !(pFile = fopen("fichier.html","r")) ){
-           printf("erreur d'ouverture de fichier");
+    if ( (pFile = fopen(fichier,"r")) == NULL ){
+        printf("erreur d'ouverture de fichier\n");
         return -1;
     }
     for (c=fgetc(pFile); !feof(pFile); c = fgetc(pFile) ){
         if (c == '<'){
             etat = BALISE; 
-            c = fgetc(pFile);
-            if (c == '/'){
-                etat = HORS_BALISE;
-            }
         }
-        if (etat == BALISE && c == ' '){
+        else if (etat == BALISE && (c == ' '|| c== '>')){
             etat = HORS_BALISE ;
+            //printf("%s\n",balise_pile[j]);
             i = 0;
-            j++;
+            j++; // on passe à la balise suivante
         }
-        if (etat == BALISE){
+        else if (etat == BALISE){
             balise_pile[j][i] = c;
-            i++;
+            i++; // on passe à la lettre suivante de la balise
         }
     }
     afficher_matrice(balise_pile);
@@ -47,8 +36,6 @@ int main(){
 
 void afficher_matrice(char  matrice [NB_BALISE][TAILLE_CHAINE]){
     for (int i = 0 ;i<NB_BALISE;i++){
-        for (int j = 0; j< TAILLE_CHAINE;j++){
-            printf("%c",matrice[i][j]);
-        }
+        printf("%s\n",matrice[i]);
     }
 }

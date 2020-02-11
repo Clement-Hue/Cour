@@ -9,7 +9,9 @@ void init_matrice(char [NB_BALISE][TAILLE_CHAINE] );
 
 enum Etat {
     BALISE,
-    HORS_BALISE,
+    BALISE_OUVRANTE,
+    BALISE_FERMANTE,
+    HORS_BALISE
 };
 
 

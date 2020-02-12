@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "analyse.h"
+#include "pile.h"
 
 int main(int argc, char *argv[]){
     FILE* pFile;
@@ -43,12 +44,15 @@ int main(int argc, char *argv[]){
             case BALISE_FERMANTE:
                 if (c== '>'){
                     etat = HORS_BALISE ;
-                    f= 0;
-                    printf("%s\n",balise_fermante);
-                    printf("%s\n",balise_pile[j-1]);
                     if (strcmp(balise_fermante,balise_pile[j-1]) != 0){
                         printf("erreur\n");
+                        exit(EXIT_FAILURE);
                     }
+                    else{
+                        j--;
+                        clean_chaine(balise_pile[j]);
+                    }
+                    f= 0;
                     clean_chaine(balise_fermante);
                 }
                 else{
@@ -64,7 +68,7 @@ int main(int argc, char *argv[]){
             default:break;
         }
     }
-    afficher_matrice(balise_pile);
+    //afficher_matrice(balise_pile);
     fclose(pFile);
     return 0;
 }

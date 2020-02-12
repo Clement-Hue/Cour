@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "analyse.h"
-#include "pile.h"
+#include "automate.h"
+#include "utils.h"
 
-int main(int argc, char *argv[]){
-    FILE* pFile;
-    char * fichier  = (argc == 1) ? "fichier.html" : argv[1];
+void automate( FILE* pFile){
     char c;
     char balise_pile[NB_BALISE][TAILLE_CHAINE];
     char balise_fermante[TAILLE_CHAINE];
@@ -14,10 +12,6 @@ int main(int argc, char *argv[]){
     enum Etat etat = HORS_BALISE; 
     init_matrice(balise_pile);
     clean_chaine(balise_fermante);
-    if ( (pFile = fopen(fichier,"r")) == NULL ){
-        printf("erreur d'ouverture de fichier\n");
-        return -1;
-    }
     for (c=fgetc(pFile); !feof(pFile); c = fgetc(pFile) ){
         switch(etat){
             case BALISE:
@@ -67,29 +61,5 @@ int main(int argc, char *argv[]){
                 break;
             default:break;
         }
-    }
-    //afficher_matrice(balise_pile);
-    fclose(pFile);
-    return 0;
-}
-
-
-void afficher_matrice(char  matrice [NB_BALISE][TAILLE_CHAINE]){
-    for (int i = 0 ;i<NB_BALISE;i++){
-        printf("%s\n",matrice[i]);
-    }
-}
-
-void init_matrice(char  matrice [NB_BALISE][TAILLE_CHAINE]){
-    for (int i = 0 ; i < NB_BALISE; i++){
-        for (int j = 0; j < TAILLE_CHAINE; j++){
-            matrice[i][j] = 0;
-        }
-    }
-}
-
-void clean_chaine(char* chaine){
-    for (int i=0;i<TAILLE_CHAINE;i++){
-        chaine[i] = 0;
     }
 }

@@ -1,6 +1,7 @@
 #ifndef PILE
 #define PILE
 
+
 enum Etat {
     BALISE,
     BALISE_OUVRANTE,
@@ -8,5 +9,6 @@ enum Etat {
     HORS_BALISE
 };
 
+void automate(FILE*);
 
 #endif

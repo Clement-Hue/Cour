@@ -1,5 +1,5 @@
-#ifndef PILE
-#define PILE
+#ifndef AUTOMATE 
+#define AUTOMATE 
 
 
 enum Etat {
@@ -9,6 +9,6 @@ enum Etat {
     HORS_BALISE
 };
 
-void automate(FILE*);
+int automate(FILE*);
 
 #endif

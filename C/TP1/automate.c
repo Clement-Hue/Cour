@@ -4,7 +4,7 @@
 #include "automate.h"
 #include "utils.h"
 
-void automate( FILE* pFile){
+int automate( FILE* pFile){
     char c;
     char balise_pile[NB_BALISE][TAILLE_CHAINE];
     char balise_fermante[TAILLE_CHAINE];
@@ -39,11 +39,10 @@ void automate( FILE* pFile){
                 if (c== '>'){
                     etat = HORS_BALISE ;
                     if (strcmp(balise_fermante,balise_pile[j-1]) != 0){
-                        printf("erreur\n");
-                        exit(EXIT_FAILURE);
+                        return 0; // il y'a une erreur
                     }
                     else{
-                        j--;
+                        j--; // on dépile
                         clean_chaine(balise_pile[j]);
                     }
                     f= 0;
@@ -62,4 +61,5 @@ void automate( FILE* pFile){
             default:break;
         }
     }
+    return 1;
 }

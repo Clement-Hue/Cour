@@ -72,18 +72,15 @@ void PrintList(SList *list)
 
 
 SList* CreateList(){
-	SList* liste;
-	liste = (SList*) malloc(sizeof(SList));
-	return liste;
+	return (SList*) malloc(sizeof(SList));
 }
 
 void DeleteList(SList* liste) {
 	SCell *pt_cell = liste->Head;
-	SCell *tmp = NULL;
 	while (pt_cell != NULL){
-		tmp = pt_cell;
 		pt_cell = pt_cell->suivant;
-		free(tmp);
+		free(liste->Head);
+		liste->Head = pt_cell;
 	}
 	free(liste);
 }
@@ -106,6 +103,8 @@ SCell* AddElementBegin(SList *liste,Data elem){
 	cellule->suivant = liste->Head;
 	if (liste->Head != NULL)
 		liste->Head->precedent = cellule;
+	if (liste->Queue == NULL)
+		liste->Queue = cellule;
 	liste->Head = cellule;
 	return cellule;
 }
@@ -115,6 +114,7 @@ SCell* AddElementAfter(SList *liste,SCell *cell,Data elem){
 	new_cellule->valeur = elem;
 	new_cellule->precedent = cell;
 	new_cellule->suivant = cell->suivant;
+	cell->suivant->precedent = new_cellule;
 	cell->suivant = new_cellule;
 	return new_cellule;
 }
@@ -124,8 +124,12 @@ void DeleteCell(SList *liste,SCell *cell){
 		liste->Head = cell->suivant;
 	else if (liste->Queue == cell)
 		liste->Queue = cell->precedent;
-	else
-		cell->precedent->suivant = cell->suivant;
+	else{
+		SCell * cell_before = cell->precedent;
+		SCell * cell_after = cell->suivant;
+		cell_before->suivant = cell_after;
+		cell_after->precedent = cell_before;
+	}
 	free(cell);
 }
 

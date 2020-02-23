@@ -12,7 +12,7 @@ int main(){
     init_tableau(tab);
     printf("avant\n");
     afficher_tableau(tab);
-    printf("Entrer 0 pour croissant 1 pour décroissant 2 pour paire\n");
+    printf("Entrer 0 pour croissant 1 pour décroissant 2 pour paire,3 pour impaire\n");
     scanf("%d",&tri);
     sort(tab,tri);
     printf("après\n");
@@ -51,11 +51,26 @@ bool test_tri(int *tab){
 }
 
 void sort(int*tab, enum Tri tri){
-    bool (*comp)(int,int,enum Tri) = comparaison;
+    bool (*comp)(int,int) ;
+    switch(tri){
+        case CROISSANT:
+            comp = croissant;
+            break;
+        case DECROISSANT:
+            comp = decroissant;
+            break;
+        case PAIRE:
+            comp = paire;
+            break;
+        case IMPAIRE:
+            comp = impaire;
+            break;
+        default: return;
+    }
     quickSort(tab,tri,0,TAILLE-1,comp);
 }
 
-void quickSort(int *tab, enum Tri tri, int L,int R, bool (*comp)(int,int,enum Tri)){
+void quickSort(int *tab, enum Tri tri, int L,int R, bool (*comp)(int,int)){
     if (L>=R)
         return;
     int pivot = partition(tab,tri,L,R,comp);
@@ -63,13 +78,13 @@ void quickSort(int *tab, enum Tri tri, int L,int R, bool (*comp)(int,int,enum Tr
     quickSort(tab,tri,pivot+1,R,comp);
 }
 
-int partition(int *tab, enum Tri tri ,int L,int R, bool (*comp)(int,int,enum Tri)){
+int partition(int *tab, enum Tri tri ,int L,int R, bool (*comp)(int,int)){
     int pivot = tab[L];
     int index_pivot = L;
     int temp = 0;
     L++;
     while  (L<=R){
-        if ((*comp)(tab[L],pivot,tri))
+        if ((*comp)(tab[L],pivot))
             L++;
         else{
             temp = tab[L];
@@ -84,28 +99,31 @@ int partition(int *tab, enum Tri tri ,int L,int R, bool (*comp)(int,int,enum Tri
     return R;
 }
 
-bool comparaison(int elem,int pivot, enum Tri tri){
-    switch(tri){
-        case CROISSANT:
-            if (elem <= pivot)
-                return true;
-            else
-                return false;
-            break;
-        case DECROISSANT:
-            if (elem >= pivot)
-                return true;
-            else 
-                return false;
-            break;
-        case PAIRE:
-            if (elem %2 == pivot %2)  
-                return elem <= pivot;
-            else if (elem%2 == 0)
-                return true;
-            else 
-                return false;
-            break; 
-        default: break;
-    }
+bool croissant(int elem,int pivot){
+    if (elem <= pivot)
+        return true;
+    return false;
+}
+
+
+bool decroissant(int elem,int pivot){
+    if (elem >= pivot)
+        return true;
+    return false;
+}
+
+bool paire(int elem, int pivot){
+    if (elem %2 == pivot %2)  
+        return elem <= pivot;
+    else if (elem%2 == 0)
+        return true;
+    return false;
+}
+
+bool impaire(int elem, int pivot){
+    if (elem %2 == pivot %2)  
+        return elem <= pivot;
+    else if (elem%2 != 0)
+        return true;
+    return false;
 }

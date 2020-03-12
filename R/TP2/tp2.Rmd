@@ -1,0 +1,57 @@
+---
+title: "R TP2"
+output: html_notebook
+---
+Pour importer un fichier
+```{r}
+x = read.table("medical.data")
+```
+
+Pour attacher des variables d'une base de donnée (les colonnes seront représentées par des variables)
+
+```{r}
+attach(x)
+```
+
+Pour obtenir la moyenne, la médianne, les quartiles (na.rm =TRUE pour ne pas prendre en compte les valeurs NA:
+```{r}
+mean(age,na.rm=TRUE)
+median(age,na.rm=TRUE)
+quantile(age,na.rm=TRUE)
+```
+
+la variance non biaisé (corrigé)
+```{r}
+variance = var(age)
+ecartType = sqrt(age)
+```
+
+Récapitulatif de toute les colonnes
+```{r}
+summary(x)
+```
+
+boite à moustache
+```{r}
+boxplot(x)
+```
+
+histogramme (breaks indique le nombre de block)
+```{r}
+hist(x, breaks=3)
+```
+
+<!-- Graphe étranget -->
+```{r}
+pie(summary(sexe))
+plot(ecdf(age))
+plot(density(age))
+qqnorm(age)
+```
+
+test d'hypothèse:
+```{r}
+shapiro.test(age)
+t.test(age)
+```
+

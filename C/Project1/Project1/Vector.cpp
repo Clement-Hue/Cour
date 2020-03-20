@@ -13,3 +13,11 @@ void Vector::AddData(double d) {
 	Vec = (double*) realloc(Vec, Size * sizeof(double));
 	Vec[Size - 1] = d;
 }
+
+double& Vector::operator[] (int inedex) {
+	return Vec[index];
+}
+
+double Vector::operator[] (int index) const {
+	return Vec[index];
+}

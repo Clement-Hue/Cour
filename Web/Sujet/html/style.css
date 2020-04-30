@@ -1,0 +1,278 @@
+
+/* Clément Hue */
+/* 'normalisation' des marges et padding pour simplifier le positionnement */
+/* A DE-COMMENTER lorsque vous commencerez à modifier ce fichier CSS */
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.hidden{
+  display: none;
+}
+
+.out-of-sight{
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow:hidden;
+}
+
+.color-black{
+  color:black;
+}
+
+
+/* mise en page globale */
+body {
+  background-color: #f6f6f6 ;
+  min-width: 480px;
+  font-family: "HelveticaNeue",Helvetica,Arial,sans-serif;
+}
+a{
+  text-decoration: none;
+  color:rgb(21, 88, 233);
+}
+a:hover{
+  color:rgb(126, 160, 231);
+}
+
+body::before {
+  display:block;
+  position: absolute;
+  height: 80px;
+  width: 100%;
+  content: "";
+  background-color: black;
+  box-shadow: 0px 0px 10px black;
+}
+
+
+
+#container {
+  position: relative;;
+  margin: 0 auto ;
+  width: 980px;
+}
+/* mise en page de l'entête */
+
+h1 {
+  background: url("images/poly-music.png") no-repeat;
+}
+
+.divider::after{ /* divider */
+  display: block;;
+  height: 1px;
+  background-color: #807b7b;;
+  content: "";
+  width: 100%;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-bottom: 3%;
+}
+.mb-5{
+  margin-bottom: 5%;
+}
+
+
+li{
+  display:inline-block
+}
+
+/* Élément | http://localhost:3002/?# */
+
+#sign-up{
+  position: absolute;
+  right: 26%;
+  border: 20px;
+  bottom: 1px;
+}
+
+
+
+/* Élément | http://localhost:3002/?# */
+
+#login{
+  position: absolute;
+  right:20%;
+  bottom: 1px;
+}
+.mouse-pointer{
+  cursor: pointer;
+}
+
+
+
+li a{
+  display: block;
+  color: white;
+  text-decoration: none;;
+  font-weight: bold;;
+  font-family: Arial,sans-serif;
+}
+#social{
+  position: absolute;
+  bottom:10px;
+  right:0px;
+}
+
+
+
+.search{
+  position: absolute;
+  right:0px;
+  top:10px;
+  background-color: black;;
+  color:white;
+  border: 2px solid grey;
+}
+
+.pos-relative{
+  position: relative;
+}
+
+#search:hover{
+  background-color: rgb(65, 65, 65);;
+}
+
+#wrapper {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-gap:30px;
+}
+
+/* mise en page de la section Pop/Rock */
+.one {
+  grid-column: 1;
+  grid-row-start: 1;
+}
+
+/* mise en page de la section Pop/Rock Artists Highlights */
+
+.two { 
+  padding:5%;
+  display: grid;
+  grid-column: 1;
+  grid-row: 2;
+  border: 1px solid rgb(189, 189, 189);
+  background-color: white;
+}
+.col-1span{
+  grid-column: 1/ span 3;
+}
+.col-1{
+  grid-column: 1;
+}
+.col-2{
+  grid-column: 2;
+}
+.col-3{
+  grid-column: 3;
+}
+.img{
+  max-width:200px;
+  height:70%;
+}
+/* mise en page de la section Pop/Rock Song Highlights */
+
+.three {
+  grid-column: 1;
+  grid-row-start: 3 ;
+  background-color: white;
+  border: 1px solid rgb(189, 189, 189);
+}
+table {
+width: 100%;
+}
+th{
+    text-align: left;
+}
+.more {
+  position: relative;
+}
+/* mise en page de l'aside Recent Pop/Rock Releases */
+.four {
+  grid-column: 2;
+  grid-row-start: 1;
+  grid-row-end: span 4;
+  height:75%;
+  background-color: white;
+  border: 1px solid rgb(189, 189, 189);
+}
+
+.img-size{
+  max-width:100px;
+}
+
+/* mise en page du footer */
+#footer {
+  position: relative;
+  z-index:10 ;
+  top:50px;
+  color:white;
+}
+
+body::after{
+  z-index:0 ;
+  display:block;
+  position: absolute;
+  min-height: 300px;
+  width: 100%;
+  content: "";
+  background-color: black;
+}
+/* règles de mise en page pour rendre le site responsive */
+
+/* social icon */
+#facebook{
+  position: absolute;
+  right: 100px;
+  background: url("images/social-header.png") 0 -70px no-repeat;
+}
+#facebook:hover{
+  position: absolute;
+  right: 100px;
+  background: url("images/social-header.png") 0 -56px no-repeat;
+}
+#twitter{
+  position: absolute;
+  right: 102px;
+  background: url("images/social-header.png") 0 -28px no-repeat;
+}
+#twitter:hover{
+  position: absolute;
+  right: 102px;
+  background: url("images/social-header.png") 0 -42px no-repeat;
+}
+#tumblr{
+  position: absolute;
+  right: 77px;
+  background: url("images/social-header.png") 0 -126px no-repeat;
+}
+#tumblr:hover{
+  position: absolute;
+  right: 77px;
+  background: url("images/social-header.png") 0 -98px no-repeat;
+}
+#google{
+  position: absolute;
+  right: 39px;
+  background: url("images/social-header.png") 0 -112px no-repeat;
+}
+#google:hover{
+  position: absolute;
+  right: 39px;
+  background: url("images/social-header.png") 0 -84px no-repeat;
+}
+#rss{
+  position: absolute;
+  right: 4px;
+  background: url("images/social-header.png") 0 -14px no-repeat;
+}
+#rss:hover{
+  position: absolute;
+  right: 4px;
+  background: url("images/social-header.png") 0 0px no-repeat;
+}

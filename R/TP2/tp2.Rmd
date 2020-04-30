@@ -54,4 +54,3 @@ test d'hypothèse:
 shapiro.test(age)
 t.test(age)
 ```
-

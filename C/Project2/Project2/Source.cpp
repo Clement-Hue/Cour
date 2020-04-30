@@ -16,6 +16,7 @@ A::A(const B& b) : x(b.x), y(b.y) {
 A::A(A&& a) {
 	x = std::move(a.x);
 	y = std::move(a.y);
+	std::cout << "constructeur de move" << std::endl;
 }
 
 A::~A() {
@@ -31,14 +32,14 @@ A& A::operator= (const A& a) {
 
 
 A& A::operator= (const B& b) {
-	std::cout << "operateur = par déplacement d'un objet B" << std::endl;
+	std::cout << "operateur = par dï¿½placement d'un objet B" << std::endl;
 	x = std::move(b.x);
 	y = std::move(b.y);
 	return *this;
 }
 
 A& A::operator= (A&& a) {
-	std::cout << "operateur = par déplacement" << std::endl;
+	std::cout << "operateur = par dï¿½placement" << std::endl;
 	x = std::move(a.x);
 	y = std::move(a.y);
 	return *this;
@@ -56,6 +57,7 @@ B::B(const B &b): x(b.x), y(b.y) {
 B::B(B&& b) {
 	x = std::move(b.x);
 	y = std::move(b.y);
+	std::cout << "constructeur de move" << std::endl;
 }
 
 B::~B() {
@@ -70,7 +72,7 @@ B& B::operator= (const B& b) {
 }
 
 B& B::operator= (B&& b) {
-	std::cout << "operateur = par déplacement" << std::endl;
+	std::cout << "operateur = par dï¿½placement" << std::endl;
 	x = std::move(b.x);
 	y = std::move(b.y);
 	return *this;

@@ -25,17 +25,14 @@ albums = Object.entries(albums)
                     [album[0]]: album[1]
                 }
             })
-let listAlbums = {}
-Object.assign(listAlbums,...albums);
-console.log(albums)
 let listArtist = []
- albums.forEach(elem =>  listArtist.push(Object.keys(elem)[0]))
+ albums.forEach(elem =>  listArtist.push(elem))
 
-function Artist(nom){
-    this.nom = nom;
-}
-Artist.prototype.withName = function() {
-
-}
+function Artist(){ }
 
 Artist.prototype.list = [...listArtist ]
+Artist.prototype.withName = function(name) {
+    return Artist.prototype.list.find(elem => Object.keys(elem) == name) 
+}
+let newArtist = new Artist()
+console.log(newArtist.withName("Fresh_Cream"))

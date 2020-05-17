@@ -1,3 +1,4 @@
+// Clément Hue
 'use strict';
 let album = {
     Fresh_Cream: 'Cream',

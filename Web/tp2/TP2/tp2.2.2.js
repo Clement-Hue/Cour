@@ -1,3 +1,4 @@
+// Clément Hue
 'use strict';
 let albums = {
     Fresh_Cream: {
@@ -45,13 +46,13 @@ let albums = {
 console.log(albums.The_Piper_at_the_Gates_of_Dawn);
 
 function albumTitle(album) {
-    return(album.title);
+    return (album.title);
 }
 function albumArtist(album) {
-    return(album.artist);
+    return (album.artist);
 }
-function albumYear (album) {
-    return(album.year);
+function albumYear(album) {
+    return (album.year);
 }
 
 console.log(albumTitle(albums.Fresh_Cream));

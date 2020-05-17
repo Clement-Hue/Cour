@@ -1,0 +1,87 @@
+/* saisissez ici vos règles CSS */
+
+#container
+{
+  width: 980px;
+  margin: 0 auto;
+}
+
+header{
+  text-align: center;
+  padding: 1em 0;
+  margin : 0;
+  background: black;
+  color: white;
+}
+
+#main{
+  position: relative;
+}
+
+#main h2
+{
+  margin-bottom: 1em;
+}
+
+#main nav {
+  float: right;
+  position: relative;
+  top: -0.5em;
+}
+
+#main p {
+  text-align: justify;
+}
+
+#main ul{
+  padding : 0;
+}
+
+#main form, #main nav > p{
+  display: inline-block;
+}
+
+#albums{
+  visibility: hidden;
+  width:500px;
+  background-color: white;
+  position:absolute;
+  text-align: center;
+  border: solid 1px black;
+  opacity: 0;
+  padding-bottom: 0.5em
+}
+
+footer{
+  text-align: center;
+  padding: 0.5em 0;
+  margin : 0;
+  background: black;
+  color: white;
+}
+
+ul{
+    list-style-type: none;
+    display:flex; 
+}
+li {
+  margin:10px;
+  padding:10px;
+  text-align: center;
+  border: solid 2px#2d85c0;
+  color: #2d85c0;
+}
+ul img {
+  height:  150px;
+}
+#albums img {
+  height:  75px;
+}
+#albums h2 {
+  margin-top: 0;
+  background-color: #2d85c0;
+}
+table {
+  margin-left:auto; 
+  margin-right:auto;
+}

@@ -1,3 +1,4 @@
+// Clément Hue
 'use strict';
 let albums = {
     Fresh_Cream: {
@@ -45,12 +46,12 @@ let albums = {
 // création du fichier json
 let albumsJson = JSON.stringify(albums);
 let file = require('fs');
-file.writeFile("albums.json",albumsJson,(error) => {
+file.writeFile('albums.json', albumsJson, (error) => {
     console.log(error);
-})
+});
 
 // récupération du fichier json
-file.readFile("albums.json",(error,data) => {
+file.readFile('albums.json', (error, data) => {
     let albumsBis = JSON.parse(data);
     console.log(albumsBis);
-})
+});

@@ -11,16 +11,17 @@ async function loadGenres() {
         throw new Error ('error response');
     const genres = await response.json();
     const select = document.querySelector('select');
-    select.addEventListener('change', (e) => {
-        loadArtists(e.target, genres).catch(error => {
-            console.log('Error' + error);
-        });
-    });
     genres.forEach(element => {
         const option = document.createElement('option');
         option.value = element.id;
         option.text = element.name;
         select.add(option);
+    });
+    loadArtists(select, genres).catch(error => console.log(error));
+    select.addEventListener('change', (e) => {
+        loadArtists(e.target, genres).catch(error => {
+            console.log('Error' + error);
+        });
     });
 }
 

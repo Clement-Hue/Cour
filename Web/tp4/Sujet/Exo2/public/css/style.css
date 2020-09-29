@@ -85,3 +85,6 @@ table {
   margin-left:auto; 
   margin-right:auto;
 }
+h3{
+  cursor: pointer;
+}

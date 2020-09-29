@@ -17,7 +17,7 @@
     "gulp-watch": "^5.0.1",
     "http-proxy-agent": "^4.0.1",
     "map-stream": "0.0.7",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.3",
     "urlencode": "^1.1.0",
     "xmldom": "^0.3.0",

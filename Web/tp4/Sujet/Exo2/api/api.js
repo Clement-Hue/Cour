@@ -17,6 +17,8 @@ app.get('/genres/:genreId/artists', (request, response) => {
         if (artist.genreId === request.params.genreId)
             listeArtist.push(artist);
     })
+    if (listeArtist.length == 0)
+        response.status(404).end();
     response.json(listeArtist);
 });
 

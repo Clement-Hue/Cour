@@ -65,6 +65,7 @@ async function artistSelected(event) {
     const popup = document.getElementById('albums');
     popup.style.visibility = 'visible';
     popup.style.opacity = 1;
+    popup.style.transitionDuration = '0.5s';
     popup.style.left = `${(document.body.clientWidth - popup.clientWidth) / 2}px`;
     popup.style.top = `${(document.body.clientHeight - popup.clientHeight) / 2}px`;
     document.querySelector('#albums form button').addEventListener('click', (e) => {

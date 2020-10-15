@@ -1,6 +1,6 @@
 import java.awt.Rectangle ;
 
 interface MovingObject {
-    Rectangle getRect() ;
+    Rectangle getRect();
     void deplace() ;
 }

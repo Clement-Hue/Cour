@@ -5,6 +5,10 @@ public class ListIterator implements Iterator<Integer> {
     ListIter list;
     int current = 0;
 
+    ListIterator(ListIter list) {
+        this.list = list;
+    }
+
     public boolean hasNext() {
         if (current < list.values.length) return true;
         return false;

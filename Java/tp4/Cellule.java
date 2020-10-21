@@ -9,6 +9,7 @@ class Cellule extends Liste {
         return val;
     }
 
+    @Override
     public Liste getNext() {
         return next;
     }
@@ -18,11 +19,11 @@ class Cellule extends Liste {
         return false;
     }
     public int longueur(){
-        Cellule cell = this;
+        Liste cell = this;
         int lenght = 0;
         while (!(cell.isEmpty() )) {
             lenght++;
-            cell = (Cellule) cell.next;
+            cell = cell.getNext();
         }
         return lenght;
     }

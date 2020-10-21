@@ -3,6 +3,10 @@ class Vide extends Liste {
     public boolean find(int n) { return false;}
     public int max() { return 0;}
     @Override
+    Liste getNext() {
+        return null;
+    }
+    @Override
     public boolean isEmpty() {
         return true;
     }

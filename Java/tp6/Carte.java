@@ -12,6 +12,14 @@ public class Carte implements Cloneable{
     public List<Region> getlRegions() {
         return lRegions;
     }
+
+
+    public Region findRegionByName(String name) {
+        for ( Region region: lRegions) {
+            if (region.getName().equals(name)) return region;
+        }
+        return null;
+    }
     public void setlRegions(List<Region> lRegions) {
         this.lRegions = lRegions;
     }
@@ -34,7 +42,7 @@ public class Carte implements Cloneable{
         }
         Carte carte = new Carte(copyRegions);
         for (Region region: carte.getlRegions()) {
-            region.setNeighbor(carte);
+            region.setNeighborFromCarte(carte);
         }
         return carte;
     }

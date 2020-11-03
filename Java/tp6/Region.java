@@ -2,9 +2,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
 class Region implements Cloneable{
-    String name;
-    Map<Region, Double> neighbors;
+    private String name;
+    private Map<Region, Double> neighbors;
+    private boolean passed = false;
 
     public Region(String name, Map<Region, Double> neighbors){
         this.name = name;
@@ -14,16 +16,26 @@ class Region implements Cloneable{
     public Region(String name){
         this.name = name;
     }
+    public void setPassed(boolean passed) {
+        this.passed = passed;
+    }
+
+    public boolean getPassed() {
+        return passed;
+    }
 
     @Override
     public String toString() {
         return name;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setNeighbor(Map<Region, Double> neighbors) {
         this.neighbors = neighbors;
     }
-    public void setNeighbor(Carte carte) {
+    public void setNeighborFromCarte(Carte carte) {
         Map<Region,Double> newNeighbors = new HashMap<>();
         for (Map.Entry<Region, Double> neighbor: neighbors.entrySet()) {
             for (Region region: carte.getlRegions()) {
@@ -38,6 +50,8 @@ class Region implements Cloneable{
     public String getName() {
         return name;
     }
+
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
@@ -45,7 +59,7 @@ class Region implements Cloneable{
 
     @Override
     public boolean equals(Object obj) {
-        if (((Region) obj).getName() == name) return true;
+        if ( obj instanceof Region && ((Region) obj).getName() == name) return true;
         return false;
     }
 

@@ -7,8 +7,9 @@ class Test {
       Carte carte = initCarte();
       carte.show();
       try {
-         Carte carte2 = (Carte) carte.clone();
-         carte2.show();
+         Way way = new Way((Carte) carte.clone());
+         way.findAWay( args.length > 0 ? args[0] : "Rennes", args.length > 0 ? args[1] : "Angers");
+         System.out.println(way);
       } catch(CloneNotSupportedException e) {
          System.out.println("erreur de clonage");
       }

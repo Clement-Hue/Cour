@@ -7,11 +7,11 @@ class Test {
       Carte carte = initCarte();
       carte.show();
       try {
-         Way way = new Way((Carte) carte.clone());
+         SearchingAlgo way = new SearchingAlgo((Carte) carte.clone());
          way.findAWay( args.length > 0 ? args[0] : "Rennes", args.length > 0 ? args[1] : "Angers");
          System.out.println(way);
-      } catch(CloneNotSupportedException e) {
-         System.out.println("erreur de clonage");
+      } catch(CloneNotSupportedException | UnknownVilleException e) {
+         System.out.println(e.getMessage());
       }
    } 
 

@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Carte implements Cloneable{
-    private List<Region> lRegions; 
+    private List<Region> lRegions;
+    
 
     public Carte(List<Region> lRegions) {
         this.lRegions = lRegions;
@@ -41,10 +43,27 @@ public class Carte implements Cloneable{
             copyRegions.add((Region) region.clone());
         }
         Carte carte = new Carte(copyRegions);
-        for (Region region: carte.getlRegions()) {
-            region.setNeighborFromCarte(carte);
-        }
+        carte.linkedRegion();
         return carte;
     }
+
+	private void linkedRegion() {
+		for (Region region: getlRegions()) {
+            Map<Region,Double> newNeighbors = new HashMap<>();
+			for (Map.Entry<Region, Double> neighbor: region.getNeighbor().entrySet()) {
+			    for (Region reg: getlRegions()) {
+			        if (reg.equals(neighbor.getKey())) newNeighbors.put(reg, neighbor.getValue());
+			    }
+			}
+			region.setNeighbor(newNeighbors);
+        }
+	}
+
+	public void removeRegion(Region current) {
+		lRegions.remove(current);
+		for (Region region: lRegions) {
+			region.getNeighbor().remove(current);
+		}
+	}
 
 }

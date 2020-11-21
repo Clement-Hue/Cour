@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"Carte"},{"p":"<Unnamed>","l":"Dijkstra"},{"p":"<Unnamed>","l":"Region"},{"p":"<Unnamed>","l":"SearchingAlgo"},{"p":"<Unnamed>","l":"Test"},{"p":"<Unnamed>","l":"UnknownVilleException"},{"p":"<Unnamed>","l":"Ville"}]

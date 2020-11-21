@@ -8,3 +8,11 @@
 /NotFoundWayException.class
 /UnknownVilleException.class
 /SearchingAlgo.class
+/villeName.class
+/VilleName.class
+/Ville.class
+/Dijjkstra.class
+/Dijkstra.class
+/Dijkstra$DijkstraData.class
+/SuperClass.class
+/TopClass.class

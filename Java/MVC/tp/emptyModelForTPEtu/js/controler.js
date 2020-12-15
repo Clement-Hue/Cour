@@ -16,12 +16,20 @@ class Controler {
   frame(modelInteger, modelActivation) {
     const view = new View();
     // update
-    modelInteger.addObservers(new DesactiveButton(view));
+    const mediator = new MediatorActivation(view,modelInteger,modelActivation);
+    modelInteger.addObservers(new DesactiveButton(mediator));
+    modelActivation.addObservers(new Activation(mediator));
     modelInteger.addObservers(new PrintObserver(view));
     modelInteger.addObservers(new Synchronized(modelInteger1, modelInteger2));
-    modelActivation.addObservers(new Activation(view));
     //  action
     view.buttonPlus.addEventListener("click", modelInteger.plus);
+    view.select.addEventListener("change", (e) => {
+      if (e.target.value === "1") {
+        modelInteger.moins();
+      } else if (e.target.value === "2") {
+        modelInteger.plus();
+      }
+    });
     view.buttonMoins.addEventListener("click", modelInteger.moins);
     view.checkBox.addEventListener("change" ,() => {
       modelActivation.switchActivation()

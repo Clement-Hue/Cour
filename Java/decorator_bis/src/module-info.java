@@ -1,0 +1,2 @@
+module decorator_bis {
+}

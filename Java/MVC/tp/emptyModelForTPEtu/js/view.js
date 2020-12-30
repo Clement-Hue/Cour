@@ -2,8 +2,11 @@
 class View {
   constructor() {
     wrapper = document.getElementById("wrapper");
-    this.buttonPlus = this.newButton("Plus");
-    this.buttonMoins = this.newButton("Moins");
+    const date = document.createElement("div");
+    const today = new Format(new Date());
+    date.innerHTML = today.format();
+    this.buttonPlus = this.newButton($.i18n("plus"));
+    this.buttonMoins = this.newButton($.i18n("moins"));
     this.text = document.createElement("input")
     this.checkBox = document.createElement("INPUT")
     this.checkBox.setAttribute("type","checkbox")
@@ -12,14 +15,16 @@ class View {
     label.htmlFor = "activate"
     label.textContent = "Activation"
     this.select = this.selectMenu();
-    this.slider = this.createSlider();
+    const {slider, container} = this.createSlider();
+    this.slider = slider;
+    wrapper.appendChild(date);
     wrapper.appendChild(this.buttonPlus);
     wrapper.appendChild(this.buttonMoins);
     wrapper.appendChild(this.text);
     wrapper.appendChild(label);
     wrapper.appendChild(this.checkBox);
     wrapper.appendChild(this.select);
-    wrapper.appendChild(this.slider);
+    wrapper.appendChild(container);
   }
 
   newButton(text) {
@@ -31,9 +36,9 @@ class View {
       const plus = document.createElement("option");
       const moins = document.createElement("option");
       moins.value = "1";
-      moins.text = "Moins";
+      moins.text = $.i18n("moins");
       plus.value = "2";
-      plus.text = "Plus";
+      plus.text = $.i18n("plus");
       const select = document.createElement("SELECT");
       select.add(plus);
       select.add(moins);
@@ -52,7 +57,7 @@ class View {
     slider.classList.add("slider")
     container.classList.add("slidecontainer");
     container.appendChild(slider)
-    return container;
+    return {container, slider};
   }
 }
 

@@ -5,6 +5,7 @@ class PrintObserver extends Observer {
     }
 
     update(observable, object){
-        this.view.text.value = observable.z
+        this.view.text.value = observable.z;
+        this.view.slider.value = observable.z;
     }
 }

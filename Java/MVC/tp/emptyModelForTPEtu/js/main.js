@@ -1,9 +1,12 @@
 // define the dictionary
 $.i18n().load( {
     'fr' : {
-      'key' : 'value',
+      "plus": "Plus",
+      "moins": "Moins",
     },
     'en': {
+      "plus": "Plus",
+      "moins" : "Minus",
     }
 })
 

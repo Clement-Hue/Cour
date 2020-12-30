@@ -34,6 +34,9 @@ class Controler {
     view.checkBox.addEventListener("change" ,() => {
       modelActivation.switchActivation()
     });
+    view.slider.addEventListener("change",(e) => {
+      modelInteger.setValue(e.target.value)
+    });
     view.text.addEventListener("change", (e) => {
       modelInteger.setValue(Number(e.target.value));
     });

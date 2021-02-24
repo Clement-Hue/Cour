@@ -1,0 +1,29 @@
+name,    matrix size,, average running times
+Blocked (50),1000,,1.164233
+Naïve,1000,,24.109539
+Register-optimised,1000,,8.783417
+Local sum,1000,,8.568809
+Naïve,1000,,8.693642
+Unfolded (4),1000,,8.595200
+Unfolded subblock 2x2,1000,,4.330089
+Interchange,1000,,1.123281
+Transposed B,1000,,1.380420
+Blocked (10),1000,,1.267546
+Blocked (20),1000,,1.310211
+Blocked (50),1000,,1.159131
+Blocked (100),1000,,1.524282
+Blocked (250),1000,,1.664914
+BlockedRectangular (4 x 8),1000,,1.813603
+BlockedRectangular (8 x 8),1000,,1.246555
+BlockedRectangular (8 x 4),1000,,1.692852
+BlockedRectangular (40 x 8),1000,,0.890399
+Recursive,1000,,11.831318
+Recursive blocked (4),1000,,1.201698
+Recursive blocked (8),1000,,1.277744
+Recursive blocked (16),1000,,1.346742
+Recursive blocked (32),1000,,1.347257
+Recursive rectangular (4 x 8),1000,,1.360642
+Recursive rectangular (8 x 8),1000,,1.369011
+Recursive rectangular (8 x 4),1000,,1.359778
+Recursive rectangular (40 x 8),1000,,1.169102
+Sustained performances (831002166000.000000),1000,,1.470553

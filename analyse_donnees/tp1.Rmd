@@ -1,0 +1,111 @@
+---
+title: "tp1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("kmeans_cah_acp.r")
+```
+
+
+A) Préparation des donnée
+
+On remplace les valeurs "-" par NA et on supprime les NA
+On supprime ensuite toute les lignes contenant "<"
+## R Markdown
+```{r}
+data <- read.csv("Ciqual2017Boissons.csv", na = '-')
+data <- na.omit(data)
+data <- data[!grepl("<", data$Protéines..g.100g.),]
+rownames(data) <- data[,1] 
+data[,1] <- NULL
+for (i in names(data)){
+  data[,i] <- as.numeric(sub(",", ".", data[,i], fixed = TRUE))
+}
+```
+
+B Question général
+
+B&)
+On remarque que l'énergie d'une boisson est fortement corrélé à la présence d'eea,
+plus il y a d'eau, moins la boisson est énergétique. Il y a également une corrélation entre
+la quantité d'alcool et l'énergie de la boisson, plus il y'a d'alcool, plus la boisson
+est énergétique, d'ailleurs, moins il y a d'eau, plus il y a d'alcool.
+Parcontre la présence de sucre ou glucide n'influe pas tant que ça sur l'énergie
+, et la présence de glucide est essentiellement dù à la présence de sucre. Pour finir une boisson 
+énergétique est une boisson qui a tendance a avoir moins de protéines.
+
+```{r}
+# moyenne
+colMeans(data)
+# variance
+kvariance(data)
+# corélation
+cor(data)
+```
+
+B2)
+
+On utilise la distance euclidienne car se sont des variables quantitatives
+
+```{r}
+distance <- as.matrix(dist(data, method="euclidean"))
+distance
+```
+
+Partie ACP
+
+C1) On interpréte les 2 premiers axes car ils détiennent la majortié de l'information (on observe
+cela en faisant un plot de l'acp, ces 2 axes représentent 75% d'après le tableau des pourcentages cumulés). De plus si on suit le critère de Kaiser, l'axe 1 et 2 sont les seuls ayant une 
+inertie supérieur à 1
+
+C2)
+```{r}
+
+# graph de l'acp
+ acp <- ACPN(data)
+biplot(acp)
+
+# Coordonnée des individus sur les 2 axes principaux
+acp$scores[,1:2]
+
+# Corrélation des variables avec les 2 principaux axes de l'acp
+AXEVARk(data, acp,2)
+
+# part d'inertie des individus sur les 2 principaux axes
+CTR(acp,2)
+
+# cos²(teta) des individus sur les axes
+COS2TETA(acp, 2)
+```
+
+C3)
+Analyse des variables:
+L'eau et l'énergie participent le plus à la formation de l'axe 1.
+Le sucre, glucide, cendre et alcool pour l'axe 2.
+
+Analyse des individus:
+Les individus typiques de l'axe 1 sont la liqueur et la crème de cassis,
+ceux de l'axe 2 sont le pastis, le Gin, et le Rhum.
+le Kir (au vin blanc) et le Kir royal sont mal représentés que ce soit sur l'axe 1 ou 2 d'après la valeur du cosinus carré de l'angle teta.
+
+On peut en déduire que la liqueur et la crème de cassis sont fortement caractérisé par les
+variables eau et énergie, et le pastis, gin et Rhum sont fortement caractérisé par le succre,
+glucide, cendre et alcool
+
+C4)
+Sur le plan factoriel représenté par l'axe 2 et 3, on remarque que le sel de chlorure
+de sodium est la variable prinicpal de l'axe 3.
+Pour ce qui est des individus, c'est principalement le cocktail à base de whisky
+qui est l'individu typique de l'axe 3
+On en conclut que le cocktail à base de whisky est essentielelment composé de sel de 
+chlorure de sodium
+
+
+```{r}
+# plan facotriel: axe 2 et 3
+PLAN(acp, 2,3)
+AXEVARk(data, acp,3)
+CTR(acp,3)
+```

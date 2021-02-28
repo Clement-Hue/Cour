@@ -109,3 +109,78 @@ PLAN(acp, 2,3)
 AXEVARk(data, acp,3)
 CTR(acp,3)
 ```
+
+D1)
+```{r}
+
+single <- function(T) {
+	N <- nrow(T);
+	T1 <- scale(T);		# pour centrer r?duire uniquement
+	T1 <- T1*sqrt(N/(N-1));	# pour centrer r?duire uniquement
+	D <- dist(T1,method="euclidean");
+	D <- D^2/(2*N); # mise en place de la distance entre classes
+        R <- hclust(D,method="single");
+        return(R)}
+
+# cah ward
+cah <- ward(data)
+```
+
+C2) 
+On remarque que pour le single linkage il y'a trois principal classes, dont 2 ne contenant
+qu'un seul individiu. Alors que pour la méthode de ward, il y a 2 principal classes, plutot
+bien répartie.
+````{r}
+# cah single linkage
+single_linkage <- single(data)
+plot(cah,hang=-1)
+plot(single_linkage,hang=-1)
+```
+
+C3) 
+Nous allons analyser 2 partitions: la partition en 2 classes et la partition en 4 classes
+Partition en 2 classes:
+rapport d'inertie expliqué: 34.9%
+
+Partition en 4 classes:
+rapport d'inertie expliqué:  70.9%
+
+```{r}
+"répératition des individus dans la partition à 4 classes"
+couper(cah,4)
+
+"rapport d'inertie expliquée, partition en 4 classes"
+rap_inertie(cah, 4)
+
+"pouvoir discirminant des variables, partition en 4 classes"
+pdis(data, cah, 4)
+
+"excentricité des classes, partition en 4 classes"
+rho2(data, cah, 4)
+
+"centre de gravité des classes, partition en 4 classes"
+cdgcl(data, cah, 4)
+
+"contribution des variables à l'inertie des clsses, partition en 4 classes"
+ctrcl(data, cah, 4)
+
+"rapport d'inertie explique, partition en 2 classes"
+rap_inertie(cah, 2)
+
+```
+
+D4)
+les variables caractérisant la partitions sont l'énegie, l'eau, le scure, le glucide et l'alcool
+
+classe 1: Cette classe regroupe le vin doux, cocktail à base de whisky. Elle est caractérisé par la quantité de cendre et de sel de chlorure de sodium pour 100g.
+
+classe 2: Cette classe regroupe: Pétaillant de fruit, les vins blancs, les vins rouges,
+champagne, les bières, sangria, les kirs, cocktail sans alcool, saké et les panachés.
+Elle est caractérisé par la quantité d'eau pour 100g
+
+classe 3: Cette classe regroupe: le pastis, l'eau de vie, le Gin, le rhum, le whisky et la vodka, ce sont essentiellement les boissons les plus alcoolisés. Elle est caractérisé par l'énergie, et la présence d'alcool pour 100g
+
+classe 4: Cette classe regroupe: la liqueur, les cocktails à base de rhum, la marsola et la crème de cassis, ce sont les boissons les plus sucrés. Elle est caractérisé par la quantité de sucre et glucide pour 100g.
+
+
+Conclusion:

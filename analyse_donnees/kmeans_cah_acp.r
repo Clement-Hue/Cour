@@ -3,21 +3,21 @@
 ###############################################################################
 
 # Charge un fichier dans une table R
-# Paramètre :	le nom du fichier (chaîne de caractères)
+# Param?tre :	le nom du fichier (cha?ne de caract?res)
 # Sortie :	une table R (data.frame)
 charger<-function(F) {T<-read.table(F,header=TRUE, row.names=1); return(T)}
 
 
-# Centre et réduit une table R
-# Paramètre :	une table R
-# Sortie : la table R centrée réduite
+# Centre et r?duit une table R
+# Param?tre :	une table R
+# Sortie : la table R centr?e r?duite
 centreduire <- function(T) {
 	N <- nrow(T) ; T1 <- scale(T);
 	return(T1*sqrt(N/(N-1)))}
 
 
-# Arrondit avec 3 décimales
-# Paramètre :	objet à arrondir (nombre simple ou tableau)
+# Arrondit avec 3 d?cimales
+# Param?tre :	objet ? arrondir (nombre simple ou tableau)
 # Sortie :	objet arrondi
 DEC3 <- function(T) {return(round(1000*T)/1000)}
 
@@ -27,15 +27,15 @@ DEC3 <- function(T) {return(round(1000*T)/1000)}
 ###############################################################################
 
 # Directement produit par des fonctions de R :
-# on considère que "cnh" est un objet de type kmeans
+# on consid?re que "cnh" est un objet de type kmeans
 #
 # Classes : cnh$cluster
 # Cardinaux des classes : cnh$size
-# centres de gravité des classes : cnh$center
+# centres de gravit? des classes : cnh$center
 
 
 # Affichage des classes d'un objet kmeans
-# Paramètres :	partition (produite par kmeans),
+# Param?tres :	partition (produite par kmeans),
 #		
 # Sortie : le vecteur des classes, affichage des classes
 kclass <- function(P) {
@@ -47,7 +47,7 @@ kclass <- function(P) {
 	}
 
 # Variance des variables (population)
-# Paramètre : table des données
+# Param?tre : table des donn?es
 # Sortie : tableau des variances
 kvariance <- function(T) {
 	nobs <- nrow(T);
@@ -59,9 +59,9 @@ kvariance <- function(T) {
 	for (i in 1:nvar) TV[i] <- rap * C[i,i];
 	return(TV)}
 
-# Centre de gravité
-# Paramètre : table
-# Sortie : coordonnées du centre de gravité
+# Centre de gravit?
+# Param?tre : table
+# Sortie : coordonn?es du centre de gravit?
 kcdg <- function(T) {
 	nobs <- nrow(T);
 	nvar <- ncol(T);
@@ -73,7 +73,7 @@ kcdg <- function(T) {
 
 # Calcule le pourcentage d'inertie inter classes d'une partition
 # (kmeans)
-# Paramètres : table des données
+# Param?tres : table des donn?es
 #              partition
 #              
 # Sortie : le pourcentage d'inertie inter classes
@@ -92,8 +92,8 @@ krap_inertie <- function(T,P) {
         r <- 1000*s/it ; r <- round(r)/10;
         return(r)}
 
-# Réalisation de plusieurs essais et sélection du meilleur
-# Paramètres : table des données,
+# R?alisation de plusieurs essais et s?lection du meilleur
+# Param?tres : table des donn?es,
 #              nombre de classes,
 #              nombre d'essais
 kNessais <- function(T,k,N) {
@@ -110,10 +110,10 @@ kNessais <- function(T,k,N) {
 	}
 	return(res)}
 
-# Contribution relative des variables à éloignement des classes
-# Paramètres :	table des données,
+# Contribution relative des variables ? ?loignement des classes
+# Param?tres :	table des donn?es,
 #		partition
-# Sortie : les contributions relatives (isouvent notées COR)
+# Sortie : les contributions relatives (isouvent not?es COR)
 kctrcl <- function(T,P) {
 	N <- nrow(T) ; M <- ncol(T);
 	k <- length(P$size);
@@ -128,10 +128,10 @@ kctrcl <- function(T,P) {
 	return(ctr/10)}
 
 
-# Contribution relative des classes à inertie du nuage
-# Paramètres :	table des données,
+# Contribution relative des classes ? inertie du nuage
+# Param?tres :	table des donn?es,
 #		partition
-# Sortie : les contributions (souvent notées CTR)
+# Sortie : les contributions (souvent not?es CTR)
 kctrng <- function(T1,P) {
         T <- centreduire(T1);
         N <- nrow(T) ; M <- ncol(T);
@@ -150,9 +150,9 @@ kctrng <- function(T1,P) {
 
 
 # Distance**2 des classes au centre du nuage
-# Paramètres :	table des données,
+# Param?tres :	table des donn?es,
 #		partition
-# Sortie : les carrés des distances (souvent notés RHO2)
+# Sortie : les carr?s des distances (souvent not?s RHO2)
 krho2 <- function(T,P) {
 	k <- length(P$size);
         nobs <- nrow(T);
@@ -169,20 +169,20 @@ krho2 <- function(T,P) {
 # FONCTIONS POUR LA CAH (WARD)                                                #
 ###############################################################################
 	
-# CAH - Ward, distance normalisée entre individus.
-# Paramètre :	table R
-# Sortie : une hiérarchie correspond à la CAH Ward (distance normalisée)
+# CAH - Ward, distance normalis?e entre individus.
+# Param?tre :	table R
+# Sortie : une hi?rarchie correspond ? la CAH Ward (distance normalis?e)
 ward <- function(T) {
 	N <- nrow(T);
-	T1 <- scale(T);		# pour centrer réduire uniquement
-	T1 <- T1*sqrt(N/(N-1));	# pour centrer réduire uniquement
+	T1 <- scale(T);		# pour centrer r?duire uniquement
+	T1 <- T1*sqrt(N/(N-1));	# pour centrer r?duire uniquement
 	D <- dist(T1,method="euclidean");
 	D <- D^2/(2*N); # mise en place de la distance entre classes
         R <- hclust(D,method="ward.D");
         return(R)}
 
 # Directement produit par des fonctions de R :
-# on considère que "cah" est un objet de type hiérarchie
+# on consid?re que "cah" est un objet de type hi?rarchie
 #
 # Dessin du dendrogramme : plot(cah,hang=-1)
 # Codage du dendrogramme : cah$merge
@@ -190,8 +190,8 @@ ward <- function(T) {
 # Graphique des indices de niveau : plot(cah$height)
 
 # Coupe un arbre hierarchique.
-# Paramètres :	hiérarchie (produite par hclust),
-#		nombre de classes demandées
+# Param?tres :	hi?rarchie (produite par hclust),
+#		nombre de classes demand?es
 # Sortie : le vecteur des classes, affichage des classes
 couper <- function(H,k) {
 	print("Composition des classes");
@@ -200,8 +200,8 @@ couper <- function(H,k) {
 	return(C)}
 
 # Calcule le pourcentage d'inertie inter classes d'une partition
-# issue d'une classification hiérarchique
-# Paramètres : hiérarchie (produite par hclust, méthode de Ward)
+# issue d'une classification hi?rarchique
+# Param?tres : hi?rarchie (produite par hclust, m?thode de Ward)
 #              nombre de classes de la partition
 # Sortie : le pourcentage d'inertie inter classes
 rap_inertie <- function(H,k) {
@@ -216,11 +216,11 @@ rap_inertie <- function(H,k) {
             return(p)}
 
 
-# Calcule les cdg  centrés réduits des classes.
-# Paramètres :	table des données,
-#		hiérarchie,
+# Calcule les cdg  centr?s r?duits des classes.
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classes
-# Sortie : les coordonnées des centres de gravité des classes
+# Sortie : les coordonn?es des centres de gravit? des classes
 cdgcl <- function(T1,H,k) {
         T <- centreduire(T1);
         N <- nrow(T) ; M <- ncol(T);
@@ -237,10 +237,10 @@ cdgcl <- function(T1,H,k) {
 	return(cdgframe)}
 
 # Calcule les cdg des classes.
-# Paramètres :	table des données,
-#		hiérarchie,
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classes
-# Sortie : les coordonnées des centres de gravité des classes
+# Sortie : les coordonn?es des centres de gravit? des classes
 cdgcl1 <- function(T,H,k) {
         N <- nrow(T) ; M <- ncol(T);
 	C <- cutree(H,k);
@@ -256,11 +256,11 @@ cdgcl1 <- function(T,H,k) {
 	return(cdgframe)}
 
 
-# Contribution relative des variables à éloignement des classes
-# Paramètres :	table des données,
-#		hiérarchie,
+# Contribution relative des variables ? ?loignement des classes
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classes
-# Sortie : les contributions relatives (isouvent notées COR)
+# Sortie : les contributions relatives (isouvent not?es COR)
 ctrcl <- function(T,H,k) {
 	N <- nrow(T) ; M <- ncol(T);
 	cdg <- cdgcl(T,H,k);
@@ -273,11 +273,11 @@ ctrcl <- function(T,H,k) {
 	return(ctr/10)}
 
 
-# Contribution relative des classes à inertie du nuage
-# Paramètres :	table des données,
-#		hiérarchie,
+# Contribution relative des classes ? inertie du nuage
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classes
-# Sortie : les contributions (souvent notées CTR)
+# Sortie : les contributions (souvent not?es CTR)
 ctrng <- function(T1,H,k) {
         T <- centreduire(T1);
         N <- nrow(T) ; M <- ncol(T);
@@ -295,10 +295,10 @@ ctrng <- function(T1,H,k) {
 
 
 # Distance**2 des classes au centre du nuage
-# Paramètres :	table des données,
-#		hiérarchie,
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classes
-# Sortie : les carrés des distances (souvent notés RHO2)
+# Sortie : les carr?s des distances (souvent not?s RHO2)
 rho2 <- function(T1,H,k) {
         T <- centreduire(T1);
         N <- nrow(T) ; M <- ncol(T);
@@ -316,10 +316,10 @@ rho2 <- function(T1,H,k) {
 
 
 # Pouvoir discriminant des variables
-# Paramètres :	table des données,
-#		hiérarchie,
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classes
-# Sortie : les carrés des distances (souvent notés RHO2)
+# Sortie : les carr?s des distances (souvent not?s RHO2)
 pdis <- function(T1,H,k) {
         T <- centreduire(T1);
         N <- nrow(T) ; M <- ncol(T);
@@ -338,9 +338,9 @@ pdis <- function(T1,H,k) {
 
 
 
-# Contribution des variables à la séparation de classes
-# Paramètre : les coordonnées du dipôle (cdg[i,]-cdg[j,])
-# Sortie : les contributions des variables à la séparation (souvent notées COD)
+# Contribution des variables ? la s?paration de classes
+# Param?tre : les coordonn?es du dip?le (cdg[i,]-cdg[j,])
+# Sortie : les contributions des variables ? la s?paration (souvent not?es COD)
 codij <- function(dipij) {
 	M <- length(dipij);
 	cod <- dipij;
@@ -350,10 +350,10 @@ codij <- function(dipij) {
 
 
 # Inertie intra d'une classe
-# Paramètres :	table des données,
-#		hiérarchie,
+# Param?tres :	table des donn?es,
+#		hi?rarchie,
 #		nombre de classess
-#		numéro de la classe
+#		num?ro de la classe
 iintra <- function(T1,H,k,num) {
 	x <- cutree(cah,k);
 	cdk=length(x[x==num]);
@@ -364,28 +364,28 @@ iintra <- function(T1,H,k,num) {
 # FONCTIONS POUR L'ACP                                                        #
 ###############################################################################
 
-# ACP normée
-# Paramètre :	Table R des données
+# ACP norm?e
+# Param?tre :	Table R des donn?es
 # Sortie :	un objet de type ACP
 ACPN<-function(T) {
 	resacp <- princomp(T, cor = TRUE, scores = TRUE);
 	return(resacp)}
 
-# Fonctions présentes dans R pour interpréter une ACP :
-# soient "acp" un objet de type acp et T la table des données
+# Fonctions pr?sentes dans R pour interpr?ter une ACP :
+# soient "acp" un objet de type acp et T la table des donn?es
 #
-# coefficients de corrélation entre les variables cor(T)
+# coefficients de corr?lation entre les variables cor(T)
 # Inertie des axes, axe i : acpn$sdev^2 , acpn$sdev[i]^2
-# Nouvelles coordonnées des individus : acpn$scores
+# Nouvelles coordonn?es des individus : acpn$scores
 # De l'individu i sur CP j : acpn$scores[i,j]
 # Graphique des inerties (valeurs propres) : plot(acp)
 # Plan principal : biplot(acp)
 # Plan i x j : biplot(acp,c(c1=i, c2=j))
 
 
-#Tableau des inerties et des pourcentages cumulés
-# Paramètre : résultat ACP
-# Sortie : tableau des inerties, pourcentages et pourcentages cumulés
+#Tableau des inerties et des pourcentages cumul?s
+# Param?tre : r?sultat ACP
+# Sortie : tableau des inerties, pourcentages et pourcentages cumul?s
 VP <- function(resacp) {
 	N <- length(resacp$sdev);
 	tab <- matrix(nrow=N,ncol=3);
@@ -400,26 +400,26 @@ VP <- function(resacp) {
 	return(tab)}
 
 
-# Corrélations entre les axes et les variables initiales
-# Paramètres :	table R des données
-#		résultat ACP (produit par princomp)
-# Sortie :	la matrice des corrélations
+# Corr?lations entre les axes et les variables initiales
+# Param?tres :	table R des donn?es
+#		r?sultat ACP (produit par princomp)
+# Sortie :	la matrice des corr?lations
 AXEVAR <- function(T,resacp) {return(cor(T,resacp$scores))}
 
 
-# Corrélations entre les k premiers axes et les variables initiales
-# Paramètres :	table R des données
-#		résultat ACP (produit par princomp)
+# Corr?lations entre les k premiers axes et les variables initiales
+# Param?tres :	table R des donn?es
+#		r?sultat ACP (produit par princomp)
 #		nombre axes
-# Sortie :	la matrice des corrélations
+# Sortie :	la matrice des corr?lations
 AXEVARk <- function(T,resacp,k) {
 	return(cor(T,subset(as.data.frame(resacp$scores),select=1:k)))}
 
 
-# Contribution de la ligne i à l'inertie de l'axe j
-# Paramètres :	résultat ACP
-#		numéro ligne
-#		numéro axe
+# Contribution de la ligne i ? l'inertie de l'axe j
+# Param?tres :	r?sultat ACP
+#		num?ro ligne
+#		num?ro axe
 # Sortie :	pourcentage de la contribution
 CTRij <- function(resacp,i,j) {
 	x <- resacp$scores[i,j]^2/(resacp$n.obs * resacp$sdev[j]^2);
@@ -428,7 +428,7 @@ CTRij <- function(resacp,i,j) {
 
 
 # Tableau des contribution des lignes aux axes
-# Paramètres :	résultat ACP
+# Param?tres :	r?sultat ACP
 #		nombre axes
 # Sortie :	tableau des pourcentages des contributions
 CTR <- function(resacp, nbax) {
@@ -449,7 +449,7 @@ SOMME2 <- function(resacp) {
 
 
 # Cosinus ** 2 des angles de projection
-# Paramètres :	résultat ACP
+# Param?tres :	r?sultat ACP
 #		nombre axes
 # Sortie :	tableau des cos2 des angles de projection
 COS2TETA <- function(resacp, nbax) {
@@ -463,9 +463,9 @@ COS2TETA <- function(resacp, nbax) {
 
 
 # Raccourci pour faire afficher un plan de projection
-# Paramètres :	résultat ACP
+# Param?tres :	r?sultat ACP
 #		premier axe choisi
-#		deuxième axe choisi	
+#		deuxi?me axe choisi	
 PLAN <- function(resacp,i,j) {biplot(resacp,c(c1=i,c2=j))}
 
 
@@ -474,11 +474,11 @@ PLAN <- function(resacp,i,j) {biplot(resacp,c(c1=i,c2=j))}
 # (ici : projection sur le plan principal)                                    #
 ###############################################################################
 
-# Paramètres : résultat de l'acp (renvoyé par princomp),
-#              résultat de la cah (renvoyé par hclust),
+# Param?tres : r?sultat de l'acp (renvoy? par princomp),
+#              r?sultat de la cah (renvoy? par hclust),
 #              nombre de classes de la cah
 
-# Sortie : les éléments des classes projetés sur le plan principal
+# Sortie : les ?l?ments des classes projet?s sur le plan principal
 #          une couleur par classes
 
 CAHsurACP<-function(acp,cah,k){

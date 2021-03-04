@@ -184,3 +184,5 @@ classe 4: Cette classe regroupe: la liqueur, les cocktails à base de rhum, la m
 
 
 Conclusion:
+Notre analyse de donnée nous a permis de nous rendre compte que l'alcool est un ingredient énergisant, contrairement à l'eau. La plupart des boissons contiennent essentiellement de l'eau, très peu contienne du sel de chlorure de sodium. Les boissons les plus énergisante sont les plus alcoolisés comme la vodka et l'eau de vie. Les vins et les bières conteinnent beaucoup d'eau.
+Le vin doux et les coktails à base de whisky contiennent beaucoup de chlorure de sodium. La quantité de glucide d'une boisson est essentiellement déterminé par la quantité de sucre.

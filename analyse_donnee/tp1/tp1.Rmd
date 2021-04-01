@@ -1,0 +1,20 @@
+---
+title: "tp1"
+author: "Clément Hue"
+date: "16/02/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+source("kmeans_cah_acp.r")
+T <- read.csv("Ciqual2017Boissons.csv", na="-")
+```
+
+Moyenne des variables
+```{r}
+var(T["Alcool..g.100g."], na.rm = TRUE)
+```

@@ -27,7 +27,7 @@ DRY_RUN = false
 
 ### OPTIMISATION FLAGS
 
-CC_OPTIMISATION = -O3
+CC_OPTIMISATION =  -O3
    # -O3 must always be set... at least for the final executable
 CC_OPENMP = -fopenmp
    # Must be set when OpenMP is intended to be used

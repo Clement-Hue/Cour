@@ -30,5 +30,5 @@ let blit_pix (r1,v1,b1,t1) (r2,v2,b2,_) =
 
 
 let mult_int_float a b =  int_of_float(float_of_int a*. b)
-let mult_teinte coeff (r,v,b,t) = (mult_int_float r coeff,  mult_int_float v coeff, mult_int_float b coeff,mult_int_float t coeff)
-let mult_transp coeff (r,v,b,t) = failwith "Implémentez-moi !"
+let mult_teinte coeff (r,v,b,t) = (mult_int_float r coeff,  mult_int_float v coeff, mult_int_float b coeff, t )
+let mult_transp coeff (r,v,b,t) = (r, v, b,mult_int_float t coeff)

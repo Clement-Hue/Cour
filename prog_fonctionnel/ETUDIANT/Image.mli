@@ -9,6 +9,7 @@ type image = pos -> Couleur.couleur
 val im_black : image
 val rayures : image
 val rayuresBis: image
+val lueur: pos -> Couleur.couleur -> image
 val lueur_40_40: Couleur.couleur -> image
 
 (** Opération de blit *)

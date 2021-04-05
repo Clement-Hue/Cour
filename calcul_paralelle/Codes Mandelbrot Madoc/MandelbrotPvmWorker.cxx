@@ -6,120 +6,52 @@
 #include <assert.h>
 #include <stdio.h>
 #include "pvm3.h"
+#include "MandelbrotPvmConstants.h"
+#include "MandelbrotPvmMessages.h"
 
-#include "sum_constants.h"
-#include "sum_messages.h"
-
-void WorkerInterval (int          workerID,
-                     unsigned int numberOfWorkers,
-                     int          workerTaskIDs [MAX_WORKERS],
-                     unsigned int dataSize,
-                     unsigned int & begin,
-                     unsigned int & end)
+void ImageMandelbrot(unsigned int largeur,
+                     unsigned int hauteur,
+                     double x0,
+                     double y0,
+                     double x1,
+                     double y1,
+                     unsigned long n_max,
+                     int workerTaskIDs[MAX_WORKERS])
 {
-   #ifdef PRE_CONDITIONS
-   bool exists;
 
-   exists = false;
-   for ( unsigned int i = 0; i < numberOfWorkers; i++ )
-      if ( workerTaskIDs[i] == workerID ) {
-            exists = true;
-            break;
-    }
-   assert( exists );
-   #endif
+   double y, x;
+   const double dx = (x1 - x0) / largeur;
+   const double dy = (y1 - y0) / hauteur;
+   Couleur **couleurs = new Couleur *[hauteur];
+   for (unsigned int i = 0; i < hauteur; i++)
+   {
+      couleurs[i] = new Couleur[largeur];
+   }
 
-   const unsigned int width = dataSize / numberOfWorkers;
+   y = y0;
 
-   #ifdef INVARIANTS
-   assert( width > 0 );
-   #endif
-
-   for ( unsigned int i = 0; i < numberOfWorkers; i++ )
-      if ( workerTaskIDs[i] == workerID ) {
-            #ifdef TRACE
-            printf("I am the worker number %d\n", i);
-            #endif
-
-            begin = width * i;
-            if ( i == numberOfWorkers - 1 )
-                end = dataSize;
-            else
-                end = begin + width;
-
-            break;
-         }
-
-   #ifdef POST_CONDITIONS
-   assert( begin <= end                  );
-   assert(          end <= MAX_DATA_SIZE );
-   #endif
+   for (unsigned long i = 0; i < hauteur; i++)
+   {
+      y = y0 + i * dy;
+      for (unsigned long j = 0; j < largeur; j++)
+      {
+         x = x0 + j * dx;
+         const double p = PointMandelbrot(x, y, n_max);
+         couleurs[i][j] = CouleurMandelbrot(p);
+      }
+   }
 }
 
-float PartialSum (unsigned int dataSize,
-                  float        data [MAX_DATA_SIZE],
-                  unsigned int begin,
-                  unsigned int end)
-   //
-   // Given an array of values to sum up,
-   // this function computes a partial sum,
-   // starting at a beginning index, *inclusive*,
-   // and ending at en ending index, *exclusive*.
-   //
-   // These indices must be well-ordered.
-   // The ending index cannot be larger than the actual size of the array of values.
-   // This size itself cannot be larger than the maximal size.
-   //
+int main()
 {
-   #ifdef PRE_CONDITIONS
-   assert( dataSize <= MAX_DATA_SIZE );
-   assert( begin <= end             );
-   assert(          end <= dataSize );
-   #endif
-
-   float sum;
-
-   sum = 0.0;
-   for ( unsigned int i = begin; i < end; i++ ) {
-        #ifdef INVARIANTS
-        assert( data[i] == DATA_VALUE );
-        #endif
-
-        sum += data[i];
-    }
-
-   #ifdef TRACE
-   printf("Sum from %d to %d is %f\n", begin, end, sum);
-   #endif
-
-   return sum;
-}
-
-
-int main ()
-{
+   unsigned int numberOfWorkers;
+   int workerTaskIDs[MAX_WORKERS];
+   int hauteur, largeur;
    const int workerID = pvm_mytid();
+   assert(pvm_parent() != PvmNoParent);
 
-   assert( pvm_parent() != PvmNoParent );
-
-   /* const */ unsigned int numberOfWorkers;
-   /* const */ int          workerTaskIDs [MAX_WORKERS];
-   /* const */ unsigned int dataSize;
-   /* const */ float data   [MAX_DATA_SIZE];
-
-   ReceiveParameters(numberOfWorkers, workerTaskIDs, dataSize, data);
-
-   /* const */ unsigned int begin;
-   /* const */ unsigned int end;
-
-   WorkerInterval(workerID, numberOfWorkers, workerTaskIDs, dataSize, begin, end);
-
-   const float sum = PartialSum(dataSize, data, begin, end);
-
-   SendResult(workerID, begin, end, sum);
-
+   ReceiveParameters(numberOfWorkers, workerTaskIDs, hauteur, largeur);
    pvm_exit();
 
    return 0;
 }
-

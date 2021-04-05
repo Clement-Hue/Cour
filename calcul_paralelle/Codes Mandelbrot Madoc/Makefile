@@ -10,7 +10,7 @@ CC_ASSERTIONS = -DPRE_CONDITIONS -DPOST_CONDITIONS -DINVARIANTS # -DCOSTLY_PRE_C
    # Note. Comment in order to improve performances, *when the code is correct*!
    # Note 2.  The non-costly assertions usually do not harm the performances.
 
-CC_TRACE = -DTRACE=0
+CC_TRACE = -DTRACE=1
    # Conditional compilation of trace.
    # Level 0 means no trace.  Higher levels usually give more and more details on the execution of a program.
    # Caution.  The trace is send on the standard output, not the error one, so it can be mixed up with the expected result.

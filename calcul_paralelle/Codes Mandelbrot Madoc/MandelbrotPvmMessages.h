@@ -27,7 +27,9 @@
 void BroadcastParameters(unsigned int numberOfWorkers,
                          int workerTaskIDs[MAX_WORKERS],
                          int hauteur,
-                         int largeur)
+                         int largeur,
+                         double x0, double y0, double dx, double dy,
+                         unsigned long n_max)
 {
 #ifdef PRE_CONDITIONS
     assert(numberOfWorkers <= MAX_WORKERS);
@@ -42,13 +44,20 @@ void BroadcastParameters(unsigned int numberOfWorkers,
     pvm_pkint(workerTaskIDs, numberOfWorkers, 1);
     pvm_pkint(&hauteur, 1, 1);
     pvm_pkint(&largeur, 1, 1);
+    pvm_pkdouble(&x0, 1, 1);
+    pvm_pkdouble(&y0, 1, 1);
+    pvm_pkdouble(&dx, 1, 1);
+    pvm_pkdouble(&dy, 1, 1);
+    pvm_pkulong(&n_max, 1, 1);
     pvm_mcast(workerTaskIDs, numberOfWorkers, PARAMETERS_TAG);
 }
 
 void ReceiveParameters(unsigned int &numberOfWorkers,
                        int workerTaskIDs[MAX_WORKERS],
                        int hauteur,
-                       int largeur)
+                       int largeur,
+                       double x0, double y0, double dx, double dy,
+                       unsigned long n_max)
 {
     pvm_recv(-1, PARAMETERS_TAG); // (-1, ---) means from any task
     pvm_upkuint(&numberOfWorkers, 1, 1);
@@ -56,7 +65,11 @@ void ReceiveParameters(unsigned int &numberOfWorkers,
     pvm_upkint(workerTaskIDs, numberOfWorkers, 1);
     pvm_upkint(&hauteur, 1, 1);
     pvm_upkint(&largeur, 1, 1);
-    //pvm_upkfloat(data, dataSize, 1);
+    pvm_upkdouble(&x0, 1, 1);
+    pvm_upkdouble(&y0, 1, 1);
+    pvm_upkdouble(&dx, 1, 1);
+    pvm_upkdouble(&dy, 1, 1);
+    pvm_upkulong(&n_max, 1, 1);
 
 #if TRACE > 0
     printf("ReceivedParamters(numberOfWorkers = %u , largeur = %d, hauteur = %d", numberOfWorkers, hauteur, largeur);
@@ -69,22 +82,20 @@ void ReceiveParameters(unsigned int &numberOfWorkers,
 
 void SendResult(int workerID,
                 unsigned int begin,
-                unsigned int end,
-                float result)
+                unsigned int end)
 //
 // Depending on its index, a worker is in charge of summing up only a sub-interval of the array of values.
 // It is this partial sum that is send back to the farmer, which is, implicitly, the parent process.
 //
 {
 #if TRACE > 0
-    printf("SendResult(workerID = %d, begin = %u, end = %u, result = %f)\n", workerID, begin, end, result);
+    printf("SendResult(workerID = %d, begin = %u, end = %u \n", workerID, begin, end);
 #endif
 
     pvm_initsend(PvmDataDefault);
     pvm_pkint(&workerID, 1, 1);
     pvm_pkuint(&begin, 1, 1);
     pvm_pkuint(&end, 1, 1);
-    pvm_pkfloat(&result, 1, 1);
     pvm_send(pvm_parent(), RESULT_TAG);
 }
 

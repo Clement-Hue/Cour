@@ -109,7 +109,7 @@ MandelbrotPvm.exe: MandelbrotPvmFarmer.cxx MandelbrotPvmConstants.h MandelbrotPv
 	cp MandelbrotPvm.exe $(EXEC_DIR)
 
 MandelbrotPvmWorker.exe: MandelbrotPvmWorker.cxx MandelbrotPvmConstants.h MandelbrotPvmMessages.h Makefile
-	cc MandelbrotPvmWorker.cxx -o MandelbrotPvmWorker.exe $(CC_OPTIMISATION) $(CC_ASSERTIONS) $(CC_TRACE) $(CC_OPTIONS) -DDRY_RUN=$(DRY_RUN)
+	g++ MandelbrotPvmWorker.cxx -o MandelbrotPvmWorker.exe $(CC_OPTIMISATION) $(CC_ASSERTIONS) $(CC_TRACE) $(CC_OPTIONS) -DDRY_RUN=$(DRY_RUN)
 	cp MandelbrotPvmWorker.exe $(EXEC_DIR)
 
 

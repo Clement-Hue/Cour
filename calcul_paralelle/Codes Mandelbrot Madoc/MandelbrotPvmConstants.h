@@ -7,7 +7,7 @@
 
 // Farm-of-workers related constants
 
-#define WORKER_PROGRAM ((char *)"MandelbrotPvm.exe") // Name of the compiled worker program to spawn
+#define WORKER_PROGRAM ((char *)"MandelbrotPvmWorker.exe") // Name of the compiled worker program to spawn
 #define MAX_WORKERS 300
 #define NUMBER_OF_WORKERS 8 // <= MAX_WORKERS // twice the number of cores seems fine for running on a single machine
 

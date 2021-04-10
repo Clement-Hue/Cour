@@ -62,7 +62,7 @@ void EndFarm(unsigned int numberOfWorkers,
 /* ASCII PPM IMAGE                                             */
 /***************************************************************/
 
-void ImageMandelbrot(unsigned int largeur,
+void ImageMandelbrot(int largeur,
                      unsigned int hauteur,
                      double x0,
                      double y0,
@@ -88,19 +88,18 @@ void ImageMandelbrot(unsigned int largeur,
 #endif
 
 #if DRY_RUN == true
-
-   double x, y;
-
-   y = y0;
-   for (unsigned long i = 0; i < hauteur; i++, y += dy)
+   Couleur **couleurs = new Couleur *[hauteur];
+   for (unsigned int i = 0; i < hauteur; i++)
    {
-      x = x0;
-      for (unsigned long j = 0; j < largeur; j++, x += dx)
-      {
-         const double p = PointMandelbrot(x, y, n_max);
-         const Couleur c = CouleurMandelbrot(p);
-      }
+      couleurs[i] = new Couleur[largeur];
    }
+
+   for (unsigned int i = 0; i < hauteur; i++)
+   {
+      delete[] couleurs[i];
+   }
+
+   delete[] couleurs;
 
 #else
 
@@ -113,25 +112,34 @@ void ImageMandelbrot(unsigned int largeur,
    printf("P3\n#Mandelbrot set\n%d %d\n255\n", (int)largeur, (int)hauteur);
 
    BroadcastParameters(NUMBER_OF_WORKERS, workerTaskIDs, hauteur, largeur, x0, y0, dx, dy, n_max);
-   //   for (unsigned int i = 0; i < NUMBER_OF_WORKERS; i++)
-   //   {
-   //      /* const */ int workerID;
-   //      /* const */ unsigned int begin;
-   //      /* const */ unsigned int end;
-   //      /* const */ float partialSum;
-   //
-   //      ReceiveResult(workerID, begin, end, partialSum);
-   //   }
-   //
+   for (unsigned int i = 0; i < NUMBER_OF_WORKERS; i++)
+   {
+      int workerID;
+      const int SIZE = hauteur * largeur;
+      unsigned int begin;
+      unsigned int end;
+      unsigned short rouge[SIZE];
+      unsigned short vert[SIZE];
+      unsigned short bleu[SIZE];
 
-   //   for (unsigned long i = 0; i < hauteur; i++)
-   //   {
-   //      for (unsigned long j = 0; j < largeur; j++)
-   //      {
-   //         printf("%3hd %3hd %3hd   ", couleurs[i][j].rouge, couleurs[i][j].vert, couleurs[i][j].bleu);
-   //      }
-   //      printf("\n");
-   //   }
+      ReceiveResult(workerID, begin, end, SIZE, rouge, vert, bleu);
+      for (int i = begin; i < end; i++)
+      {
+         for (int j = 0; j < largeur; j++)
+         {
+            couleurs[i][j] = {rouge[i * largeur + j], vert[i * largeur + j], bleu[i * largeur + j]};
+         }
+      }
+   }
+
+   for (unsigned long i = 0; i < hauteur; i++)
+   {
+      for (unsigned long j = 0; j < largeur; j++)
+      {
+         printf("%3hd %3hd %3hd   ", couleurs[i][j].rouge, couleurs[i][j].vert, couleurs[i][j].bleu);
+      }
+      printf("\n");
+   }
 
    for (unsigned int i = 0; i < hauteur; i++)
    {
@@ -212,8 +220,7 @@ int main(int argc,
    int largeur;
    unsigned long n_max;
 
-   LigneCommande(argc, argv,
-                 xc, yc, dx, dy, largeur, n_max);
+   LigneCommande(argc, argv, xc, yc, dx, dy, largeur, n_max);
 
    const unsigned int hauteur = (dy / dx) * largeur;
    const double x0 = xc - dx;

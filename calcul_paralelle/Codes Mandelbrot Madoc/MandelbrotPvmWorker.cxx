@@ -100,7 +100,9 @@ Couleur CouleurMandelbrot(double p)
    }
 }
 
-void ImageMandelbrot(Couleur **couleurs,
+void ImageMandelbrot(unsigned short *rouge,
+                     unsigned short *vert,
+                     unsigned short *bleu,
                      unsigned int largeur,
                      int begin,
                      int end,
@@ -110,9 +112,7 @@ void ImageMandelbrot(Couleur **couleurs,
                      double dy,
                      unsigned long n_max)
 {
-
    double y, x;
-
    for (unsigned long i = begin; i < end; i++)
    {
       y = y0 + i * dy;
@@ -120,7 +120,10 @@ void ImageMandelbrot(Couleur **couleurs,
       {
          x = x0 + j * dx;
          const double p = PointMandelbrot(x, y, n_max);
-         couleurs[i][j] = CouleurMandelbrot(p);
+         const Couleur &c = CouleurMandelbrot(p);
+         rouge[i * largeur + j] = c.rouge;
+         vert[i * largeur + j] = c.vert;
+         bleu[i * largeur + j] = c.bleu;
       }
    }
 }
@@ -129,27 +132,21 @@ int main()
 {
    unsigned int numberOfWorkers;
    int workerTaskIDs[MAX_WORKERS];
-   int hauteur, largeur, begin, end;
+   unsigned int hauteur;
+   int largeur, begin, end;
    double x0, y0, dx, dy;
    unsigned long n_max;
    const int workerID = pvm_mytid();
    assert(pvm_parent() != PvmNoParent);
-   Couleur **couleurs = new Couleur *[hauteur];
-   for (unsigned int i = 0; i < hauteur; i++)
-   {
-      couleurs[i] = new Couleur[largeur];
-   }
    ReceiveParameters(numberOfWorkers, workerTaskIDs, hauteur, largeur, x0, y0, dx, dy, n_max);
+   const int SIZE = hauteur * largeur;
+   unsigned short rouge[SIZE];
+   unsigned short vert[SIZE];
+   unsigned short bleu[SIZE];
    WorkerInterval(workerID, numberOfWorkers, workerTaskIDs, hauteur, begin, end);
-   ImageMandelbrot(couleurs, largeur, begin, end, x0, y0, dx, dy, n_max);
-   SendResult(workerID, begin, end);
+   ImageMandelbrot(rouge, vert, bleu, largeur, begin, end, x0, y0, dx, dy, n_max);
+   SendResult(workerID, begin, end, SIZE, rouge, vert, bleu);
    pvm_exit();
-
-   for (unsigned int i = 0; i < hauteur; i++)
-   {
-      delete[] couleurs[i];
-   }
-   delete[] couleurs;
 
    return 0;
 }

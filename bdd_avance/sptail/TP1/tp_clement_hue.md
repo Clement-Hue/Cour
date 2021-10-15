@@ -73,3 +73,27 @@ select geom from buildings where name = 'Tour des Espagnols') )
 ```
 Renvoie FF2F1121
 
+### Question 3
+Version avec __st_touches__
+```sql
+select b1.name, b2.name from buildings b1, buildings b2
+where ST_TOUCHES(b1.geom, b2.geom);
+```
+_Durée_: 551ms
+
+Version avec __st_relate__
+```sql
+select b1.name, b2.name from buildings b1, buildings b2
+where ST_RELATE(b1.geom, b2.geom, 'F***T****');
+
+```
+_Durée_: 15 927ms
+
+### Question 4
+
+Retourne les tronçons de rue du Centre ville
+```sql
+select r.name, r.geom from roads r where st_intersection( (
+    select geom from quartiers q where q.nom = 'Centre Ville'
+    ), r.geom) is not Null and r.fclass = 'trunk';
+```

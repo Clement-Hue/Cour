@@ -1,0 +1,23 @@
+programme factorielle;
+declare
+  naturel i;
+  naturel n;
+  naturel f;
+debut
+  affichaine("donner n : ");
+  obtenir(n);
+  si n > 15 alors
+      affichaine("je ne suis pas fou, le resultat est trop grand");
+      alaligne;
+    sinon
+      f := 1;
+      i := 1;
+      tantque i <= n faire
+        f := f*i ; i := i+1;
+      ftq;
+      affichaine("fact(") ; afficher(n) ; affichaine(") = ");
+      afficher(f) ; alaligne;
+  fsi;
+  alaligne; alaligne; affichaine("FINI") ; alaligne;
+fin..
+

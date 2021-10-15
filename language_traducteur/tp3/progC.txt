@@ -1,0 +1,17 @@
+#include <stdio.h>
+int main() {
+int i;
+int n;
+int f;
+printf("donner n : "); 
+ n  >  int printf("je ne suis pas fou, le resultat est trop grand"); 
+printf("\n");
+ int  int  i  <=  n  f  *  i  i  +  int printf("fact("); 
+ n printf(") = "); 
+ f printf("\n");
+printf("\n");
+printf("\n");
+printf("FINI"); 
+printf("\n");
+return 0;
+}

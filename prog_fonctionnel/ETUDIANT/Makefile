@@ -3,7 +3,7 @@ FLAGS = -w a
 LIBRARIES= unix.cma  camlimages/camlimages_core.cma camlimages/camlimages_graphics.cma camlimages/camlimages_all_formats.cma
 
 
-a.out:  Couleur.cmo Image.cmo ImageDump.cmo Mandelbrot.cmo Sprite.cmo Lueur.cmo test.ml
+a.out: Mandelbrot.cmo  Couleur.cmo Image.cmo ImageDump.cmo Sprite.cmo Lueur.cmo test.ml
 	ocamlc $(FLAGS) -o $@ $(LIBRARIES) $^
 
 # Utiliser cette cible si nous n'avez pas installé la bibliothèque Camlimages (pas de Sprites)
@@ -16,9 +16,9 @@ Couleur.cmo : Couleur.ml Couleur.cmi
 Couleur.cmi : Couleur.mli
 	ocamlc $(FLAGS) -c $<
 
-Image.cmo : Image.ml Image.cmi Couleur.cmi
+Image.cmo : Image.ml Image.cmi Couleur.cmi 
 	ocamlc $(FLAGS) -c $<
-Image.cmi : Image.mli Couleur.cmi
+Image.cmi : Image.mli Couleur.cmi 
 	ocamlc $(FLAGS) -c $<
 
 Mandelbrot.cmi : Mandelbrot.mli

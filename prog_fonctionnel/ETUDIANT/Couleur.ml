@@ -16,6 +16,8 @@ and opaque    = 255
 
 
 let norm n = min 255 (max 0 n)
+let int_to_color n precision =  (n / precision) mod 255, 255,255,255
+
 
 
 let blit_pix (r1,v1,b1,t1) (r2,v2,b2,_) =

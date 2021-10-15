@@ -25,7 +25,6 @@ void WorkerInterval(int workerID,
 #ifdef TRACE
          printf("I am the worker number %d\n", i);
 #endif
-         // que se passe t-il quand i vaut 0 ?
          begin = width * i;
          if (i == numberOfWorkers - 1)
             end = hauteur;
@@ -144,6 +143,8 @@ int main()
    unsigned short vert[SIZE];
    unsigned short bleu[SIZE];
    WorkerInterval(workerID, numberOfWorkers, workerTaskIDs, hauteur, begin, end);
+   // On calcule pour chaque worker une partie du tableau des couleurs et on envoie trois tableaux,
+   // un tableau par couleur, car on ne peut envoyer de struct directement.
    ImageMandelbrot(rouge, vert, bleu, largeur, begin, end, x0, y0, dx, dy, n_max);
    SendResult(workerID, begin, end, SIZE, rouge, vert, bleu);
    pvm_exit();

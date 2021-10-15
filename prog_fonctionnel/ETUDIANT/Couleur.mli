@@ -10,7 +10,7 @@ val mult_transp : float -> couleur -> couleur
 
 val invisible : int
 val opaque    : int
-
+val int_to_color: int -> int -> couleur
 
 (** Fonctions utilitaires. *)
 

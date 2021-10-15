@@ -122,6 +122,7 @@ void ImageMandelbrot(int largeur,
       unsigned short vert[SIZE];
       unsigned short bleu[SIZE];
 
+      // On récupére les couleurs calculées par les workers
       ReceiveResult(workerID, begin, end, SIZE, rouge, vert, bleu);
       for (int i = begin; i < end; i++)
       {

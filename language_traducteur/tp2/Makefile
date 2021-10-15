@@ -1,11 +1,9 @@
-exec : yacc
-	gcc y.tab.c -ll -ly
+FLEX = tp1.lex
+exec : cFile
+		gcc lex.yy.c -ll
 
-lex: 
-	lex canari.lex
+cFile: 
+		lex ${FLEX}
 
-yacc: 
-	yacc canari.y
-
-
-
+clean: 
+	rm a.out lex.yy.c

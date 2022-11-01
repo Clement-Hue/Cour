@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-cached": "^1.1.1",
     "gulp-eslint": "^3.0.1",
     "gulp-watch": "^4.3.11"
